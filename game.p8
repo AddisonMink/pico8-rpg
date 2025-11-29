@@ -1,50 +1,56 @@
 pico-8 cartridge // http://www.pico-8.com
 version 42
 __lua__
+#include util.lua
 #include menu.lua
 #include menu_tree.lua
 #include dialogue.lua
 #include global_state.lua
 
 function _init()
-  menu1 = menu_new(
-    "barry",
-    "hi there!\nthis is dialogue.",
-    { "continue" },
+  menu = menu_new(
+    "shop",
     nil,
-    nil,
-    100, 60
-  )
-
-  menu2 = menu_new(
-    "barry",
-    "this is my last\ndialogue bye!",
-    { "leave" },
-    nil,
-    nil,
-    100, 60
-  )
-
-  menu_tree = menu_tree_new(
-    "start", {
-      start = menu1,
-      continue = menu2
+    {
+      { name = "potion", price = 2 },
+      { name = "bomba", price = 3 }
     },
-    { "leave" }
+    function(item) return global.coins >= item.price end,
+    function(item)
+      global.coins -= item.price
+      if global.items[item.name] == nil then
+        global.items[item.name] = 0
+      end
+      global.items[item.name] += 1
+    end,
+    function(item)
+      local name = pad_str(item.name, 8)
+      local price = pad_str("$" .. item.price, 5)
+      local owned = "owned: " .. (global.items[item.name] or 0)
+      return name .. price .. owned
+    end,
+    100, 60
   )
-
-  dialogue = dialogue_new(4, menu_tree)
 end
 
 function _update()
   if result then return end
-  result = dialogue:update()
+  result = menu:update()
+  if result ~= "cancel" then result = nil end
 end
 
 function _draw()
   cls()
   if result then return end
-  dialogue:draw()
+  menu:draw(8, 8)
+
+  local y = 80
+  print(global.coins .. " coins", 8, y, 7)
+  y += 8
+  for i, v in pairs(global.items) do
+    print(i .. " x" .. v, 8, y, 7)
+    y += 8
+  end
 end
 
 __gfx__

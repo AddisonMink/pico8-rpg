@@ -1,12 +1,16 @@
 -- menu.lua
 
 --[[
+  types:
+    OPTION - type of menu option. defaults to string.
+
   arguments:
     title (string, optional) - menu title
     text (string, optional) - body text, supports "\n"
-    options (table, optional) - array of option strings
-    is_valid (function, optional) - is_valid(option) -> boolean
-    on_select (function, optional) - on_select(option)
+    options (table, optional) - array of OPTION
+    is_valid (function, optional) - is_valid(OPTION) -> boolean
+    on_select (function, optional) - on_select(OPTION)
+    stringify (function, optional) - stringify(OPTION) -> string
     min_width (number, optional) - minimum width of menu
     min_height (number, optional) - minimum height of menu
 
@@ -22,7 +26,7 @@
     draw(x, y) - draws menu at (x, y)
 ]]
 
-function menu_new(title, text, options, is_valid, on_select, min_width, min_height)
+function menu_new(title, text, options, is_valid, on_select, stringify, min_width, min_height)
   local w, h = 8, 8
   local text_height = 0
   local text_lines = {}
@@ -30,6 +34,8 @@ function menu_new(title, text, options, is_valid, on_select, min_width, min_heig
   local me = {}
 
   -- #region initialization
+  stringify = stringify or function(o) return o end
+
   if title then
     h += 6
     w = #title * 4 + 8
@@ -47,7 +53,8 @@ function menu_new(title, text, options, is_valid, on_select, min_width, min_heig
   if options then
     h += 4 + #options * 8
     for o in all(options) do
-      w = max(w, #o * 4 + 16)
+      local str = stringify(o)
+      w = max(w, #str * 4 + 16)
     end
   end
 
@@ -100,7 +107,7 @@ function menu_new(title, text, options, is_valid, on_select, min_width, min_heig
 
     for i, option in ipairs(options) do
       local c = is_valid(option) and 7 or 5
-      print(option, x + 8, y, c)
+      print(stringify(option), x + 8, y, c)
       if i == index then
         spr(1, x, y)
       end
