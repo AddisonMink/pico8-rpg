@@ -1,3 +1,4 @@
+-- #region dialogue logic
 function dialogue_new(npc_sprite_id, menu_tree)
   local me = {}
 
@@ -48,3 +49,6 @@ function shop_dialogue_new(npc_sprite_id, items)
 
   return dialogue_simple_new(npc_sprite_id, menu)
 end
+-- #endregion
+
+dialogue_town_shop = shop_dialogue_new(4, global.shop_items)

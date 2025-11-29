@@ -4,11 +4,11 @@ __lua__
 #include util.lua
 #include menu.lua
 #include menu_tree.lua
-#include dialogue.lua
 #include global_state.lua
+#include dialogue.lua
 
 function _init()
-  dialogue = shop_dialogue_new(4, global.shop_items)
+  dialogue = dialogue_town_shop
 end
 
 function _update()
