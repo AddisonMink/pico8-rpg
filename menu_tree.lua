@@ -11,10 +11,13 @@
         terminal (string) - if terminal state reached
         nil - if still navigating
 
-    draw(x, y)
+    reset() - resets to initial state
+
+    draw(x, y) - draws current menu at (x, y)
 ]]
 
 function menu_tree_new(state, menu_map, terminals, allow_cancel)
+  local initial_state = state
   local prev_state = nil
   local terminals_set = {}
   local me = {}
@@ -24,6 +27,12 @@ function menu_tree_new(state, menu_map, terminals, allow_cancel)
     terminals_set[t] = true
   end
   -- #endregion
+
+  function me:reset()
+    state = initial_state
+    prev_state = nil
+    menu_map[state]:reset()
+  end
 
   function me:update()
     local menu = menu_map[state]

@@ -7,7 +7,9 @@
     options (table, optional) - array of option strings
     is_valid (function, optional) - is_valid(option) -> boolean
     on_select (function, optional) - on_select(option)
-  
+    min_width (number, optional) - minimum width of menu
+    min_height (number, optional) - minimum height of menu
+
   methods:
     update() -> string or nil
       returns:
@@ -16,10 +18,11 @@
         "cancel" - if cancelled
         nil - if no action
 
-    draw(x, y)
+    reset() - resets index to first option
+    draw(x, y) - draws menu at (x, y)
 ]]
 
-function menu_new(title, text, options, is_valid, on_select)
+function menu_new(title, text, options, is_valid, on_select, min_width, min_height)
   local w, h = 8, 8
   local text_height = 0
   local text_lines = {}
@@ -51,7 +54,13 @@ function menu_new(title, text, options, is_valid, on_select)
   options = options or {}
   is_valid = is_valid or function() return true end
   on_select = on_select or function() end
+  w = max(w, min_width or 0)
+  h = max(h, min_height or 0)
   -- #endregion
+
+  function me:reset()
+    index = 1
+  end
 
   function me:update()
     index = btnp(2) and (index - 2) % #options + 1
@@ -73,8 +82,8 @@ function menu_new(title, text, options, is_valid, on_select)
   end
 
   function me:draw(x, y)
-    rectfill(0, 0, w - 1, h - 1, 1)
-    rect(0, 0, w - 1, h - 1, 7)
+    rectfill(x, y, x + w - 1, y + h - 1, 1)
+    rect(x, y, x + w - 1, y + h - 1, 7)
 
     x += 4
     y += 4

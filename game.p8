@@ -5,13 +5,36 @@ __lua__
 #include menu_tree.lua
 
 function _init()
+  menu1 = menu_new(
+    "barry",
+    "hi there!\nthis is dialogue.",
+    { "continue" }
+  )
+
+  menu2 = menu_new(
+    "barry",
+    "this is my last dialogue.\nbye!",
+    { "leave" }
+  )
+
+  menu_tree = menu_tree_new(
+    "start", {
+      start = menu1,
+      continue = menu2
+    },
+    { "leave" }
+  )
 end
 
 function _update()
+  if result then return end
+  result = menu_tree:update()
 end
 
 function _draw()
   cls()
+  if result then return end
+  menu_tree:draw(20, 20)
 end
 
 __gfx__
