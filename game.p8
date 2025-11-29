@@ -6,21 +6,19 @@ __lua__
 #include menu_tree.lua
 #include global_state.lua
 #include dialogue.lua
+#include world.lua
 
 function _init()
-  dialogue = dialogue_town_shop
+  world = world_new()
 end
 
 function _update()
-  if result then return end
-  result = dialogue:update()
-  if result ~= "cancel" then result = nil end
+ world:update()
 end
 
 function _draw()
   cls()
-  if result then return end
-  dialogue:draw(8, 8)
+  world:draw()
 end
 
 __gfx__
