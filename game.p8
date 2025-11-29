@@ -5,41 +5,13 @@ __lua__
 #include menu_tree.lua
 
 function _init()
-  main_menu = menu_new(
-    "main menu",
-    "here's some text\nanotha line\nline3\nline4",
-    { "start", "options", "credits" }
-  )
-
-  options_menu = menu_new(
-    "options",
-    "choose an option",
-    { "sound", "graphics", "gameplay" }
-  )
-
-  menu_map = {
-    main = main_menu,
-    options = options_menu
-  }
-
-  menu = menu_tree_new(
-    "main",
-    menu_map,
-    { "start" },
-    true
-  )
-  result = nil
 end
 
 function _update()
-  if result then return end
-  result = menu:update()
 end
 
 function _draw()
   cls()
-  menu:draw(0, 0)
-  print("result: " .. tostr(result), 0, 80, 7)
 end
 
 __gfx__
