@@ -4,6 +4,7 @@ __lua__
 #include menu.lua
 #include menu_tree.lua
 #include dialogue.lua
+#include global_state.lua
 
 function _init()
   menu1 = menu_new(
