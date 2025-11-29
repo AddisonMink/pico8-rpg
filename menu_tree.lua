@@ -40,6 +40,9 @@ function menu_tree_new(state, menu_map, terminals, allow_cancel)
     if not result then return end
 
     if allow_cancel and result == "cancel" then
+      if prev_state == nil or prev_state == initial_state then
+        return "cancel"
+      end
       state = prev_state or state
     elseif result and menu_map[result] then
       prev_state = state

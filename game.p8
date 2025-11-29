@@ -8,49 +8,19 @@ __lua__
 #include global_state.lua
 
 function _init()
-  menu = menu_new(
-    "shop",
-    nil,
-    {
-      { name = "potion", price = 2 },
-      { name = "bomba", price = 3 }
-    },
-    function(item) return global.coins >= item.price end,
-    function(item)
-      global.coins -= item.price
-      if global.items[item.name] == nil then
-        global.items[item.name] = 0
-      end
-      global.items[item.name] += 1
-    end,
-    function(item)
-      local name = pad_str(item.name, 8)
-      local price = pad_str("$" .. item.price, 5)
-      local owned = "owned: " .. (global.items[item.name] or 0)
-      return name .. price .. owned
-    end,
-    100, 60
-  )
+  dialogue = shop_dialogue_new(4, global.shop_items)
 end
 
 function _update()
   if result then return end
-  result = menu:update()
+  result = dialogue:update()
   if result ~= "cancel" then result = nil end
 end
 
 function _draw()
   cls()
   if result then return end
-  menu:draw(8, 8)
-
-  local y = 80
-  print(global.coins .. " coins", 8, y, 7)
-  y += 8
-  for i, v in pairs(global.items) do
-    print(i .. " x" .. v, 8, y, 7)
-    y += 8
-  end
+  dialogue:draw(8, 8)
 end
 
 __gfx__
