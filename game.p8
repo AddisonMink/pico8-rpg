@@ -10,15 +10,37 @@ __lua__
 
 function _init()
   world = world_new()
+  state = "world"
 end
 
 function _update()
- world:update()
+  if state == "world" then
+    local code, result = world:update()
+    if code == "dialogue" then
+      dialogue = result
+      state = "dialogue"
+    end
+  elseif state == "dialogue" then
+    local done = dialogue:update()
+    if done then
+      state = "world"
+    end
+  end
 end
 
 function _draw()
+  local camera_x = peek2(0x5f28)
+  local camera_y = peek2(0x5f2a)
+
   cls()
-  world:draw()
+  if state == "world" then
+    world:draw()
+  elseif state == "dialogue" then
+    dialogue:draw()
+  end
+
+  rectfill(camera_x, camera_y, camera_x + 128, camera_y + 8, 0)
+  print("$" .. global.coins, camera_x + 2, camera_y + 2, 7)
 end
 
 __gfx__

@@ -7,9 +7,11 @@ function dialogue_new(npc_sprite_id, menu_tree)
   end
 
   function me:draw()
-    spr(npc_sprite_id, 32, 16, 2, 2)
-    spr(global.player.sprite_id, 82, 16, 2, 2)
-    menu_tree:draw(16, 40)
+    local camera_x = peek2(0x5f28)
+    local camera_y = peek2(0x5f2a)
+    spr(npc_sprite_id, camera_x + 32, camera_y + 16, 2, 2)
+    spr(global.player.sprite_id, camera_x + 82, camera_y + 16, 2, 2)
+    menu_tree:draw(camera_x + 16, camera_y + 40)
   end
 
   return me
