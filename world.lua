@@ -32,8 +32,9 @@ function world_new()
     local tx, ty = tile_pos(x + dx, y + dy)
     local tile_id = mget(tx, ty)
     local in_bounds = tx >= 0 and tx < 31 and ty > 2 and ty < 31
+    local blocking = fget(tile_id, 0)
 
-    if not in_bounds then
+    if blocking or not in_bounds then
       dx, dy = 0, 0
     end
 
