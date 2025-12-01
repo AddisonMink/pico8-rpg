@@ -10,10 +10,17 @@ __lua__
 
 function _init()
   world = world_new()
-  state = "world"
+  draw_trans_func1 = function() end
+  draw_trans_func2 = function() world:draw() end
+  next_state = "world"
+  t0 = time()
+  state = "transition"
 end
 
 function _update()
+  global.camera_x = peek2(0x5f28)
+  global.camera_y = peek2(0x5f2a)
+  
   if state == "world" then
     local code, result = world:update()
     if code == "dialogue" then
@@ -25,21 +32,26 @@ function _update()
     if done then
       state = "world"
     end
+  elseif state == "transition" then
+    local done = time() - t0 > screen_transition_dur
+    if done then
+      state = next_state
+    end
   end
 end
 
 function _draw()
-  local camera_x = peek2(0x5f28)
-  local camera_y = peek2(0x5f2a)
-
   cls()
   if state == "world" then
     world:draw()
   elseif state == "dialogue" then
     dialogue:draw()
+  elseif state == "transition" then
+    draw_screen_transition(draw_trans_func1, draw_trans_func2, time() - t0)
   end
 
   -- draw hud
+  local camera_x, camera_y = global.camera_x, global.camera_y
   local hp_str = "hp " .. global.player.hp .. "/" .. global.player.max_hp
   local hp_x = 4
   local mp_str = "mp " .. global.player.mp .. "/" .. global.player.max_mp

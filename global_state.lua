@@ -14,5 +14,9 @@ global = {
   shop_items = {
     { name = "potion", price = 2 },
     { name = "bomba", price = 3 }
-  }
+  },
+
+  -- camera data
+  camera_x = 0,
+  camera_y = 0
 }

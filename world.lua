@@ -18,6 +18,10 @@ function world_new()
   local me = {}
   -- #endregion
 
+  -- #region initialization
+  camera(camera_x, camera_y)
+  -- #endregion
+
   local dialogue_map = {
     ["14,15"] = dialogue_town_shop,
     ["17,14"] = dialogue_town_inn,
