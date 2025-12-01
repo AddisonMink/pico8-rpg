@@ -1,4 +1,3 @@
--- #region dialogue logic
 function dialogue_new(npc_sprite_id, menu_tree)
   local me = {}
 
@@ -24,6 +23,30 @@ function dialogue_simple_new(npc_sprite_id, menu)
     { "ok", "cancel" },
     true
   )
+  return dialogue_new(npc_sprite_id, menu_tree)
+end
+
+-- segment = { text = string, action = () => () }
+function dialogue_linear_new(npc_sprite_id, title, segments)
+  local menu_map = {}
+
+  for i, segment in ipairs(segments) do
+    local state_key = tostring(i)
+    local next_state_key = i < #segments and tostring(i + 1) or "leave"
+
+    menu_map[state_key] = menu_new(
+      title,
+      segment.text,
+      { next_state_key },
+      nil,
+      segment.action,
+      function(key) return key == "leave" and key or "continue" end,
+      100, 80
+    )
+  end
+
+  local menu_tree = menu_tree_new("1", menu_map, { "leave" })
+
   return dialogue_new(npc_sprite_id, menu_tree)
 end
 
@@ -68,7 +91,39 @@ function inn_dialogue_new(npc_sprite_id, cost)
 
   return dialogue_simple_new(npc_sprite_id, menu)
 end
--- #endregion
+
+function wizard_dialogue_new()
+  local text1 = [[
+i will teach you a 
+spell to lull your 
+foes to slumber.
+
+then you can escape
+if you do not wish
+to fight!
+]]
+
+  local text2 = [[
+these wood are haunted
+by the dark elf's 
+creatures.
+
+beware the dragon!
+  ]]
+
+  local function action1()
+    global.player.max_mp += 1
+    global.player.mp = global.player.max_mp
+  end
+
+  local segments = {
+    { text = text1, action = action1 },
+    { text = text2, action = function() end }
+  }
+
+  return dialogue_linear_new(43, "wizard", segments)
+end
 
 dialogue_town_shop = shop_dialogue_new(4, global.shop_items)
 dialogue_town_inn = inn_dialogue_new(4, 3)
+dialogue_wizard_tower = wizard_dialogue_new()

@@ -21,6 +21,7 @@ function world_new()
   local dialogue_map = {
     ["14,15"] = dialogue_town_shop,
     ["17,14"] = dialogue_town_inn,
+    ["8,8"] = dialogue_wizard_tower
   }
 
   local function tile_pos(x, y)
