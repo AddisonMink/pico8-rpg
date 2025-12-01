@@ -51,6 +51,24 @@ function shop_dialogue_new(npc_sprite_id, items)
 
   return dialogue_simple_new(npc_sprite_id, menu)
 end
+
+function inn_dialogue_new(npc_sprite_id, cost)
+  local menu = menu_new(
+    "inn",
+    nil,
+    { "rest $" .. cost },
+    function(item) return global.coins >= cost end,
+    function(item)
+      global.coins -= cost
+      global.player.hp = global.player.max_hp
+    end,
+    nil,
+    100, 80
+  )
+
+  return dialogue_simple_new(npc_sprite_id, menu)
+end
 -- #endregion
 
 dialogue_town_shop = shop_dialogue_new(4, global.shop_items)
+dialogue_town_inn = inn_dialogue_new(4, 3)

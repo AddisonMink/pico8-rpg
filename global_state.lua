@@ -1,7 +1,11 @@
 global = {
   -- player data
   player = {
-    sprite_id = 2
+    sprite_id = 2,
+    hp = 50,
+    max_hp = 50,
+    mp = 0,
+    max_mp = 0,
   },
   items = {},
   coins = 5,
