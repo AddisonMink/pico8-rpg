@@ -27,7 +27,7 @@ function spr_outline(id, x, y, flip_x)
 end
 
 function draw_screen_transition(draw_func1, draw_func2, elapsed)
-  local camera_x, camera_y = global.camera_x, global.camera_y
+  local camera_x, camera_y = peek2(0x5f28), peek2(0x5f2a)
   local progress = min(1, elapsed / screen_transition_dur)
   local reverse = progress > 0.5
   local progress = reverse and (progress - 0.5) * 2 or progress * 2

@@ -5,7 +5,7 @@ global = {
     hp = 50,
     max_hp = 50,
     mp = 0,
-    max_mp = 0,
+    max_mp = 0
   },
   items = {},
   coins = 5,
@@ -14,9 +14,5 @@ global = {
   shop_items = {
     { name = "potion", price = 2 },
     { name = "bomba", price = 3 }
-  },
-
-  -- camera data
-  camera_x = 0,
-  camera_y = 0
+  }
 }

@@ -8,6 +8,15 @@ __lua__
 #include dialogue.lua
 #include world.lua
 
+function transition(from, to, next)
+  draw_trans_func1 = function() from:draw() end
+  draw_trans_func2 = function() to:draw() end
+  next_state = state
+  t0 = time()
+  next_state = next
+  state = "transition"
+end
+
 function _init()
   world = world_new()
   draw_trans_func1 = function() end
@@ -18,19 +27,16 @@ function _init()
 end
 
 function _update()
-  global.camera_x = peek2(0x5f28)
-  global.camera_y = peek2(0x5f2a)
-  
   if state == "world" then
     local code, result = world:update()
     if code == "dialogue" then
       dialogue = result
-      state = "dialogue"
+      transition(world, dialogue, "dialogue")
     end
   elseif state == "dialogue" then
     local done = dialogue:update()
     if done then
-      state = "world"
+      transition(dialogue, world, "world")
     end
   elseif state == "transition" then
     local done = time() - t0 > screen_transition_dur
@@ -51,7 +57,7 @@ function _draw()
   end
 
   -- draw hud
-  local camera_x, camera_y = global.camera_x, global.camera_y
+  local camera_x, camera_y = peek2(0x5f28), peek2(0x5f2a)
   local hp_str = "hp " .. global.player.hp .. "/" .. global.player.max_hp
   local hp_x = 4
   local mp_str = "mp " .. global.player.mp .. "/" .. global.player.max_mp
