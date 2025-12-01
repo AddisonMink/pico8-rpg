@@ -1,8 +1,8 @@
 function world_new()
   -- #region constants
-  local side_frames = { 72, 73 }
-  local down_frames = { 88, 89, 88, 90 }
-  local up_frames = { 75, 76, 75, 77 }
+  local side_frames = { 16, 17 }
+  local down_frames = { 22, 23, 22, 24 }
+  local up_frames = { 6, 7, 6, 8 }
   -- #endregion
 
   -- #region state
