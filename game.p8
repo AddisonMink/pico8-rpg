@@ -4,22 +4,26 @@ __lua__
 #include util.lua
 #include menu.lua
 #include menu_tree.lua
+#include action_menu.lua
 #include global_state.lua
 #include dialogue.lua
 #include world.lua
 #include game.lua
 
-
 function _init()
   game = game_new()
+  menu = action_menu_new()
 end
 
 function _update()
   game:update()
+  menu:update()
 end
 
 function _draw()
   game:draw()
+
+  menu:draw()
 end
 
 __gfx__

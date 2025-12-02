@@ -7,6 +7,7 @@ global = {
     mp = 0,
     max_mp = 0
   },
+  spells = {},
   items = {},
   coins = 5,
 

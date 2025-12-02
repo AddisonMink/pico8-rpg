@@ -59,9 +59,9 @@ function shop_dialogue_new(npc_sprite_id, items)
     function(item)
       global.coins -= item.price
       if global.items[item.name] == nil then
-        global.items[item.name] = 0
+        global.items[item.name] = { name = item.name, quantity = 0 }
       end
-      global.items[item.name] += 1
+      global.items[item.name].quantity += 1
     end,
     function(item)
       local name = pad_str(item.name, 8)
