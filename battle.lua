@@ -162,9 +162,9 @@ function battle_new()
         state = "player_turn"
       end
     elseif state == "win" and btnp(4) then
-      return { t = "win", coins = enemy.coins }
+      return "win", enemy.coins
     elseif state == "lose" and btnp(4) then
-      return { t = "lose" }
+      return "lose"
     end
   end
 

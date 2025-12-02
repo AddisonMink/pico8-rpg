@@ -13,20 +13,16 @@ __lua__
 #include game.lua
 
 function _init()
-  --game = game_new()
-  battle = battle_new()
+  game = game_new()
 end
 
 function _update()
-  --game:update()
-  battle:update()
+  game:update()
 end
 
 function _draw()
   cls()
-  --game:draw()
-
-  battle:draw()
+  game:draw()
 end
 
 __gfx__

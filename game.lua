@@ -1,5 +1,6 @@
 function game_new()
   local world = world_new()
+  local battle, dialogue = nil
   local draw_trans_func1 = function() end
   local draw_trans_func2 = function() world:draw() end
   local next_state = "world"
@@ -16,18 +17,27 @@ function game_new()
     state = "transition"
   end
 
-
   function me:update()
     if state == "world" then
       local code, result = world:update()
       if code == "dialogue" then
         dialogue = result
         transition(world, dialogue, "dialogue")
+      elseif code == "battle" then
+        battle = battle_new(global.player, result)
+        transition(world, battle, "battle")
       end
     elseif state == "dialogue" then
       local done = dialogue:update()
       if done then
         transition(dialogue, world, "world")
+      end
+    elseif state == "battle" then
+      local code, result = battle:update()
+      if code == "win" then
+        global.coins += result
+        transition(battle, world, "world")
+      elseif code == "lose" then
       end
     elseif state == "transition" then
       local done = time() - t0 > screen_transition_dur
@@ -43,6 +53,8 @@ function game_new()
       world:draw()
     elseif state == "dialogue" then
       dialogue:draw()
+    elseif state == "battle" then
+      battle:draw()
     elseif state == "transition" then
       draw_screen_transition(draw_trans_func1, draw_trans_func2, time() - t0)
     end

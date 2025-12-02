@@ -3,6 +3,8 @@ function world_new()
   local side_frames = { 16, 17 }
   local down_frames = { 22, 23, 22, 24 }
   local up_frames = { 6, 7, 6, 8 }
+  local steps_to_battle = 30
+  local battle_chance = 33
   -- #endregion
 
   -- #region state
@@ -77,6 +79,12 @@ function world_new()
     local tx, ty, tile_id = move()
     local key = tx .. "," .. ty
     dialogue = dialogue_map[key]
+
+    if steps >= steps_to_battle then
+      steps = 0
+      local battle = rnd(100) < battle_chance
+      if battle then return "battle", goblin_new() end
+    end
 
     if dialogue and btnp(4) then
       return "dialogue", dialogue
