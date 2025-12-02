@@ -7,67 +7,19 @@ __lua__
 #include global_state.lua
 #include dialogue.lua
 #include world.lua
+#include game.lua
 
-function transition(from, to, next)
-  draw_trans_func1 = function() from:draw() end
-  draw_trans_func2 = function() to:draw() end
-  next_state = state
-  t0 = time()
-  next_state = next
-  state = "transition"
-end
 
 function _init()
-  world = world_new()
-  draw_trans_func1 = function() end
-  draw_trans_func2 = function() world:draw() end
-  next_state = "world"
-  t0 = time()
-  state = "transition"
+  game = game_new()
 end
 
 function _update()
-  if state == "world" then
-    local code, result = world:update()
-    if code == "dialogue" then
-      dialogue = result
-      transition(world, dialogue, "dialogue")
-    end
-  elseif state == "dialogue" then
-    local done = dialogue:update()
-    if done then
-      transition(dialogue, world, "world")
-    end
-  elseif state == "transition" then
-    local done = time() - t0 > screen_transition_dur
-    if done then
-      state = next_state
-    end
-  end
+  game:update()
 end
 
 function _draw()
-  cls()
-  if state == "world" then
-    world:draw()
-  elseif state == "dialogue" then
-    dialogue:draw()
-  elseif state == "transition" then
-    draw_screen_transition(draw_trans_func1, draw_trans_func2, time() - t0)
-  end
-
-  -- draw hud
-  local camera_x, camera_y = peek2(0x5f28), peek2(0x5f2a)
-  local hp_str = "hp " .. global.player.hp .. "/" .. global.player.max_hp
-  local hp_x = 4
-  local mp_str = "mp " .. global.player.mp .. "/" .. global.player.max_mp
-  local mp_x = 64 - (#mp_str * 4) / 2
-  local coin_str = "$" .. global.coins
-  local coin_x = 128 - (#coin_str * 4) - 2
-  rectfill(camera_x, camera_y, camera_x + 128, camera_y + 8, 0)
-  print(hp_str, camera_x + hp_x, camera_y + 2, 8)
-  print(mp_str, camera_x + mp_x, camera_y + 2, 12)
-  print(coin_str, camera_x + coin_x, camera_y + 2, 10)
+  game:draw()
 end
 
 __gfx__
