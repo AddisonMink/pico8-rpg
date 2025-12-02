@@ -1,6 +1,7 @@
 global = {
   -- player data
   player = {
+    player = true,
     sprite_id = 128,
     hp = 50,
     max_hp = 50,

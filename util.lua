@@ -1,5 +1,13 @@
 screen_transition_dur = 0.5
 
+function copy_table(t)
+  local t2 = {}
+  for k, v in pairs(t) do
+    t2[k] = v
+  end
+  return t2
+end
+
 function pad_str(str, len)
   local padding = len - #str
   while padding > 0 do
@@ -24,6 +32,13 @@ function spr_outline(id, x, y, flip_x)
   end
   pal()
   spr(id, x, y, 1, 1, flip_x)
+end
+
+function set_palette(color)
+  pal()
+  for i = 0, 15 do
+    pal(i, color)
+  end
 end
 
 function draw_screen_transition(draw_func1, draw_func2, elapsed)

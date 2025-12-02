@@ -6,24 +6,27 @@ __lua__
 #include menu_tree.lua
 #include action_menu.lua
 #include global_state.lua
+#include enemy.lua
 #include dialogue.lua
 #include world.lua
+#include battle.lua
 #include game.lua
 
 function _init()
-  game = game_new()
-  menu = action_menu_new()
+  --game = game_new()
+  battle = battle_new()
 end
 
 function _update()
-  game:update()
-  menu:update()
+  --game:update()
+  battle:update()
 end
 
 function _draw()
-  game:draw()
+  cls()
+  --game:draw()
 
-  menu:draw()
+  battle:draw()
 end
 
 __gfx__
