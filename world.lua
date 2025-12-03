@@ -24,11 +24,6 @@ function world_new()
   -- #region initialization
   camera(camera_x, camera_y)
 
-  if debug then
-    x, y = debug.world_x, debug.world_y
-    camera_x, camera_y = x - 32, y - 32
-    camera(camera_x, camera_y)
-  end
   -- #endregion
 
   local dialogue_map = {

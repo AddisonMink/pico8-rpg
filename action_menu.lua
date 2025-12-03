@@ -10,7 +10,7 @@ function action_menu_new(can_escape)
     { "attack", "spell", "item", "escape" },
     function(action)
       return action == "attack"
-          or action == "spell" and #global.spells > 0
+          or action == "spell" and #global.spells > 0 and global.player.mp > 0
           or action == "item" and #table_values(global.items) > 0
           or action == "escape" and can_escape
     end
