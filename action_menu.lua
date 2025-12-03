@@ -10,8 +10,8 @@ function action_menu_new(can_escape)
     { "attack", "spell", "item", "escape" },
     function(action)
       return action == "attack"
-          or action == "spell" and global.player.mp > 0
-          or action == "item" and #global.items > 0
+          or action == "spell" and #global.spells > 0
+          or action == "item" and #table_values(global.items) > 0
           or action == "escape" and can_escape
     end
   )
@@ -19,11 +19,11 @@ function action_menu_new(can_escape)
   item_menu = menu_new(
     "item",
     nil,
-    global.items,
+    table_values(global.items),
     nil,
     nil,
     function(item)
-      return item.name .. " x" .. item.quantity
+      return pad_str(item.item.name .. " x" .. item.quantity,12) .. item.item.desc
     end
   )
 

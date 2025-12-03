@@ -8,6 +8,14 @@ function copy_table(t)
   return t2
 end
 
+function table_values(t)
+  local values = {}
+  for _, v in pairs(t) do
+    add(values, v)
+  end
+  return values
+end
+
 function pad_str(str, len)
   local padding = len - #str
   while padding > 0 do

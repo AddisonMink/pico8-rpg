@@ -142,6 +142,17 @@ function battle_new()
       elseif result == "escape" then
         state = "escape"
       elseif result.type == "item" then
+        local item_with_quant = result.item
+        local item = item_with_quant.item
+        local compiled = compile_effects(item.effects, item.range)
+        item_with_quant.quantity -= 1
+        if item_with_quant.quantity <= 0 then
+          global.items[item.name] = nil
+        end
+        effects = compiled
+        dur, t0 = 0, time()
+        acting = player
+        state = "exec"
       elseif result.type == "spell" then
         local spell = result.spell
         local compiled = compile_effects(spell.effects, spell.range)

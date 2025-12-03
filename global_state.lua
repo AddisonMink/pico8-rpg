@@ -14,7 +14,6 @@ global = {
 
   -- shop data
   shop_items = {
-    { name = "potion", price = 2 },
-    { name = "bomba", price = 3 }
+    potion_item,
   }
 }

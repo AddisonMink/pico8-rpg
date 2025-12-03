@@ -59,14 +59,15 @@ function shop_dialogue_new(npc_sprite_id, items)
     function(item)
       global.coins -= item.price
       if global.items[item.name] == nil then
-        global.items[item.name] = { name = item.name, quantity = 0 }
+        global.items[item.name] = { item = item, quantity = 0 }
       end
       global.items[item.name].quantity += 1
     end,
     function(item)
       local name = pad_str(item.name, 8)
       local price = pad_str("$" .. item.price, 5)
-      local owned = "owned: " .. (global.items[item.name] or 0)
+      local num_owned = global.items[item.name] and global.items[item.name].quantity or 0
+      local owned = "owned: " .. num_owned
       return name .. price .. owned
     end,
     100, 80

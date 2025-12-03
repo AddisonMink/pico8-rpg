@@ -6,6 +6,7 @@ __lua__
 #include menu_tree.lua
 #include action_menu.lua
 #include spell.lua
+#include item.lua
 #include enemy.lua
 #include global_state.lua
 #include dialogue.lua
