@@ -84,6 +84,7 @@ function inn_dialogue_new(npc_sprite_id, cost)
     function(item)
       global.coins -= cost
       global.player.hp = global.player.max_hp
+      global.player.mp = global.player.max_mp
     end,
     nil,
     100, 80
@@ -94,8 +95,8 @@ end
 
 function wizard_dialogue_new()
   local text1 = [[
-i will teach you a 
-spell to lull your 
+i will teach you a
+spell to lull your
 foes to slumber.
 
 then you can escape
@@ -105,7 +106,7 @@ to fight!
 
   local text2 = [[
 these wood are haunted
-by the dark elf's 
+by the dark elf's
 creatures.
 
 beware the dragon!
@@ -114,6 +115,7 @@ beware the dragon!
   local function action1()
     global.player.max_mp += 1
     global.player.mp = global.player.max_mp
+    add(global.spells, sleep_spell)
   end
 
   local segments = {
