@@ -1,4 +1,4 @@
-function battle_new()
+function battle_new(enemy)
   -- #region constants
   local animation_fps = 12
   local attack_id_offsets = { 2, 4, 7 }
@@ -10,7 +10,6 @@ function battle_new()
   -- #endregion
 
   local player = global.player
-  local enemy = goblin_new()
   local action_menu = action_menu_new()
   local effects = {}
   local acting = nil
@@ -61,6 +60,10 @@ function battle_new()
         local x = x + 24 + i * 2
         rectfill(x, y, x, y, 7)
       end
+    end
+
+    if unit.armor then
+      spr(143, x + 16, y + 8)
     end
 
     local x, y = x, y + 21
@@ -124,7 +127,7 @@ function battle_new()
       add(effects, { t = "flash", target = target, color = 11 })
     end,
     sleep = function(effect)
-      effect.target.sleep = 3
+      effect.target.sleep = 2
     end
   }
 
@@ -193,7 +196,7 @@ function battle_new()
           effects = { { t = "message", target = enemy, text = "sleep" } }
           acting = enemy
           t0, dur = time(), 0
-          
+
           state = "exec"
         else
           state = "enemy_turn"

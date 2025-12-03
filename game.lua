@@ -24,7 +24,7 @@ function game_new()
         dialogue = result
         transition(world, dialogue, "dialogue")
       elseif code == "battle" then
-        battle = battle_new(global.player, result)
+        battle = battle_new(result)
         transition(world, battle, "battle")
       end
     elseif state == "dialogue" then

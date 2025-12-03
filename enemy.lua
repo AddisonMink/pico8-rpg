@@ -13,3 +13,13 @@ function goblin_new()
     behavior = attack_behavior
   }
 end
+
+function hobgoblin_new()
+  return {
+    sprite_id = 234,
+    coins = 3,
+    hp = 20,
+    armor = true,
+    behavior = attack_behavior
+  }
+end

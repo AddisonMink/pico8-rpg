@@ -5,6 +5,7 @@ function world_new()
   local up_frames = { 6, 7, 6, 8 }
   local steps_to_battle = 30
   local battle_chance = 33
+  local random_encounters = { goblin_new, goblin_new, hobgoblin_new }
   -- #endregion
 
   -- #region state
@@ -83,7 +84,9 @@ function world_new()
     if steps >= steps_to_battle then
       steps = 0
       local battle = rnd(100) < battle_chance
-      if battle then return "battle", goblin_new() end
+      if battle then
+        return "battle", rnd(random_encounters)()
+      end
     end
 
     if dialogue and btnp(4) then
