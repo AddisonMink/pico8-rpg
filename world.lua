@@ -26,6 +26,11 @@ function world_new()
 
   -- #endregion
 
+  local encounter_map = {
+    [0] = { background_id = 174, enemies = { goblin_new, goblin_new, hobgoblin_new } },
+    [11] = { background_id = 172, enemies = { goblin_new, hobgoblin_new, witch_new } }
+  }
+
   local dialogue_map = {
     ["14,15"] = dialogue_town_shop,
     ["17,14"] = dialogue_town_inn,
@@ -115,9 +120,14 @@ function world_new()
 
     if steps >= steps_to_battle then
       steps = 0
+      local encounter = encounter_map[tile_id]
+      if not encounter then return end
       local battle = rnd(100) < battle_chance
       if battle then
-        return "battle", rnd(random_encounters)()
+        return "battle", {
+          background_id = encounter.background_id,
+          enemy = rnd(encounter.enemies)()
+        }
       end
     end
 

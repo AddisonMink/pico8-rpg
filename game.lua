@@ -32,7 +32,7 @@ function game_new()
         dialogue = result
         transition(world, dialogue, "dialogue")
       elseif code == "battle" then
-        battle = battle_new(result)
+        battle = battle_new(result.enemy, result.background_id)
         transition(world, battle, "battle")
       elseif code == "scripted_battle" then
         battle = battle_new(result.spawn())

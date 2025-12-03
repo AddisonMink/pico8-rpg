@@ -1,5 +1,6 @@
-function battle_new(enemy)
+function battle_new(enemy, background_id)
   -- #region constants
+  background_id = background_id or 172
   local animation_fps = 12
   local attack_id_offsets = { 2, 4, 7 }
   local attack_widths = { 2, 3, 3 }
@@ -16,6 +17,13 @@ function battle_new(enemy)
   local flash, anim, message, t0 = nil, nil, nil, time()
   local state = "player_turn"
   local me = {}
+
+  local function draw_background()
+    for x = 0, 8 do
+      local x = camera_x + x * 16
+      spr(background_id, x, camera_y + 8, 2, 2)
+    end
+  end
 
   local function draw_message(text, color)
     local x = camera_x + 64 - (#text * 2)
@@ -251,7 +259,7 @@ function battle_new(enemy)
 
   function me:draw()
     cls()
-
+    draw_background()
     draw_unit(enemy, camera_x + 32, camera_y + 32)
     draw_unit(player, camera_x + 72, camera_y + 32)
 
