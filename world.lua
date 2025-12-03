@@ -23,12 +23,19 @@ function world_new()
 
   -- #region initialization
   camera(camera_x, camera_y)
+
+  if debug then
+    x, y = debug.world_x, debug.world_y
+    camera_x, camera_y = x - 32, y - 32
+    camera(camera_x, camera_y)
+  end
   -- #endregion
 
   local dialogue_map = {
     ["14,15"] = dialogue_town_shop,
     ["17,14"] = dialogue_town_inn,
-    ["8,8"] = dialogue_wizard_tower
+    ["8,8"] = dialogue_wizard_tower,
+    ["3,13"] = dialogue_fairy_cave_1
   }
 
   local scripted_battle_tiles = {
@@ -85,6 +92,12 @@ function world_new()
 
   function me:reset_position()
     x, y = 13 * 8, 15 * 8
+    camera_x, camera_y = x - 32, y - 32
+    camera(camera_x, camera_y)
+  end
+
+  function me:set_position(new_x, new_y)
+    x, y = new_x, new_y
     camera_x, camera_y = x - 32, y - 32
     camera(camera_x, camera_y)
   end

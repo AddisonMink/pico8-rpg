@@ -127,6 +127,48 @@ beware the dragon!
   return dialogue_linear_new(43, "wizard", segments)
 end
 
+function fairy_cave_1_new()
+  local text1 = [[
+the dark elf cap-
+tured us and set
+the dragon to guard
+this cave!
+
+we will show you a
+path through the
+forest.
+]]
+
+  local text2 = [[
+there are more of us
+further in. we will
+help you if we can.
+]]
+
+  local function action2()
+    global.player.max_mp += 1
+    global.player.mp = global.player.max_mp
+    add(global.spells, sleep_spell)
+  end
+
+  local segments = {
+    {
+      text = text1, action = function()
+        mset(3, 14, 11)
+        mset(3, 15, 11)
+        mset(4, 15, 11)
+        mset(5, 15, 11)
+      end
+    },
+    {
+      text = text2, action = function() end
+    }
+  }
+
+  return dialogue_linear_new(41, "fairies", segments)
+end
+
 dialogue_town_shop = shop_dialogue_new(4, global.shop_items)
 dialogue_town_inn = inn_dialogue_new(4, 3)
 dialogue_wizard_tower = wizard_dialogue_new()
+dialogue_fairy_cave_1 = fairy_cave_1_new()
