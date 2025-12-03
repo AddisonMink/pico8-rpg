@@ -5,7 +5,7 @@ function world_new()
   local up_frames = { 6, 7, 6, 8 }
   local steps_to_battle = 30
   local battle_chance = 33
-  local random_encounters = { goblin_new, goblin_new, hobgoblin_new }
+  local random_encounters = { goblin_new, goblin_new, hobgoblin_new, witch_new }
   -- #endregion
 
   -- #region state

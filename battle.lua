@@ -25,9 +25,11 @@ function battle_new(enemy)
 
   local function draw_unit(unit, x, y)
     if unit.state == "dead" then return end
-    local tint = flash and flash.target == unit and flash.color
     local anim_id = anim and anim.target == unit and anim.id
     local message = message and message.target == unit and message.text
+
+    local tint = flash and flash.target == unit and flash.color
+        or unit.invisible and 1
 
     if tint then
       set_palette(tint)
@@ -62,6 +64,14 @@ function battle_new(enemy)
       end
     end
 
+    if unit.invisible then
+      spr(158, x + 16, y + 8)
+      for i = 1, unit.invisible do
+        local x = x + 24 + i * 2
+        rectfill(x, y, x, y, 7)
+      end
+    end
+
     if unit.armor then
       spr(143, x + 16, y + 8)
     end
@@ -85,6 +95,15 @@ function battle_new(enemy)
     return compiled
   end
 
+  local function dec_status(target, status)
+    if target[status] then
+      target[status] -= 1
+      if target[status] <= 0 then
+        target[status] = nil
+      end
+    end
+  end
+
   local effect_handlers = {
     attack = function(effect)
       local target = effect.target
@@ -94,8 +113,18 @@ function battle_new(enemy)
     end,
     damage = function(effect)
       local target = effect.target
+
+      if target.invisible and not effect.magic then
+        add(effects, { t = "message", target = target, text = "miss" })
+        return
+      end
+
       local damage = effect.power
-      if target.armor and not effect.magic then damage = flr(damage / 2) end
+
+      local damage = effect.magic and damage
+          or target.armor and flr(damage / 2)
+          or damage
+
       target.hp = max(0, target.hp - damage)
       target.sleep = nil
       add(effects, { t = "flash", target = target, color = 8 }, 1)
@@ -128,7 +157,10 @@ function battle_new(enemy)
       add(effects, { t = "flash", target = target, color = 11 })
     end,
     sleep = function(effect)
-      effect.target.sleep = 2
+      effect.target.sleep = 3
+    end,
+    invisible = function(effect)
+      effect.target.invisible = 3
     end
   }
 
@@ -187,6 +219,8 @@ function battle_new(enemy)
       if player.state ~= "dead" then
         player.state = "idle"
       end
+      dec_status(acting, "invisible")
+      dec_status(acting, "sleep")
 
       if player.hp <= 0 then
         state = "lose"
@@ -194,8 +228,6 @@ function battle_new(enemy)
         state = "win"
       elseif acting == player then
         if enemy.sleep then
-          enemy.sleep -= 1
-          if enemy.sleep <= 0 then enemy.sleep = nil end
           effects = { { t = "message", target = enemy, text = "sleep" } }
           acting = enemy
           t0, dur = time(), 0

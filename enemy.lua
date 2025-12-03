@@ -24,6 +24,33 @@ function hobgoblin_new()
   }
 end
 
+function witch_new()
+  return {
+    sprite_id = 232,
+    coins = 3,
+    hp = 20,
+    behavior = function(enemy, player)
+      local choice = flr(rnd(2))
+      if choice == 0 or enemy.invisible then
+        return {
+          name = "fire",
+          effects = {
+            { t = "animation", id = 160, target = player },
+            { t = "damage", power = 20, magic = true, target = player }
+          }
+        }
+      elseif choice == 1 then
+        return {
+          name = "invis",
+          effects = {
+            { t = "invisible", target = enemy }
+          }
+        }
+      end
+    end
+  }
+end
+
 function dragon_new()
   return {
     sprite_id = 230,
@@ -36,7 +63,7 @@ function dragon_new()
           name = "breath",
           effects = {
             { t = "animation", id = 160, target = player },
-            { t = "damage", power = 50, magic = true, target = player}
+            { t = "damage", power = 50, magic = true, target = player }
           }
         }
       else
