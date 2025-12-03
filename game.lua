@@ -26,6 +26,9 @@ function game_new()
       elseif code == "battle" then
         battle = battle_new(result)
         transition(world, battle, "battle")
+      elseif code == "scripted_battle" then
+        battle = battle_new(result.spawn())
+        transition(world, battle, "scripted_battle")
       end
     elseif state == "dialogue" then
       local done = dialogue:update()
@@ -36,6 +39,16 @@ function game_new()
       local code, result = battle:update()
       if code == "win" then
         global.coins += result
+        transition(battle, world, "world")
+      elseif code == "lose" then
+      elseif code == "escape" then
+        transition(battle, world, "world")
+      end
+    elseif state == "scripted_battle" then
+      local code, result = battle:update()
+      if code == "win" then
+        global.coins += result
+        world:remove_scripted_battle_tile(result.key)
         transition(battle, world, "world")
       elseif code == "lose" then
       elseif code == "escape" then
@@ -56,6 +69,8 @@ function game_new()
     elseif state == "dialogue" then
       dialogue:draw()
     elseif state == "battle" then
+      battle:draw()
+    elseif state == "scripted_battle" then
       battle:draw()
     elseif state == "transition" then
       draw_screen_transition(draw_trans_func1, draw_trans_func2, time() - t0)

@@ -88,8 +88,9 @@ function battle_new(enemy)
   local effect_handlers = {
     attack = function(effect)
       local target = effect.target
+      local power = effect.power or 10
       add(effects, { t = "animation", target = target, id = slash_id }, 1)
-      add(effects, { t = "damage", target = target, power = 10 }, 2)
+      add(effects, { t = "damage", target = target, power = power }, 2)
     end,
     damage = function(effect)
       local target = effect.target
@@ -183,7 +184,9 @@ function battle_new(enemy)
         state = "end_turn"
       end
     elseif state == "end_turn" then
-      player.state = "idle"
+      if player.state ~= "dead" then
+        player.state = "idle"
+      end
 
       if player.hp <= 0 then
         state = "lose"

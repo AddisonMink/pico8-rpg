@@ -31,6 +31,10 @@ function world_new()
     ["8,8"] = dialogue_wizard_tower
   }
 
+  local scripted_battle_tiles = {
+    ["4,13"] = { spawn = dragon_new, key = "4,13" }
+  }
+
   local function tile_pos(x, y)
     return flr((x + 4) / 8), flr((y + 4) / 8)
   end
@@ -75,11 +79,25 @@ function world_new()
     return tx, ty, tile_id
   end
 
+  function me:remove_scripted_battle_tile(key)
+    scripted_battle_tiles[key] = nil
+  end
+
   function me:update()
     camera(camera_x, camera_y)
     local tx, ty, tile_id = move()
     local key = tx .. "," .. ty
+    local scripted_battle = scripted_battle_tiles[key]
     dialogue = dialogue_map[key]
+
+    if scripted_battle and not on_scripted_battle_tile then
+      on_scripted_battle_tile = true
+      return "scripted_battle", scripted_battle
+    end
+
+    if not scripted_battle then
+      on_scripted_battle_tile = false
+    end
 
     if steps >= steps_to_battle then
       steps = 0
