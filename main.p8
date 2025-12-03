@@ -5,8 +5,9 @@ __lua__
 #include menu.lua
 #include menu_tree.lua
 #include action_menu.lua
-#include global_state.lua
+#include spell.lua
 #include enemy.lua
+#include global_state.lua
 #include dialogue.lua
 #include world.lua
 #include battle.lua

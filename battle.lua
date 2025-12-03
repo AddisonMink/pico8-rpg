@@ -56,7 +56,7 @@ function battle_new()
     end
 
     if unit.sleep then
-      spr(109, x + 16, y)
+      spr(142, x + 16, y)
       for i = 1, unit.sleep do
         local x = x + 24 + i * 2
         rectfill(x, y, x, y, 7)
@@ -69,6 +69,17 @@ function battle_new()
       rectfill(x, y, x, y, 8)
       x += 2
     end
+  end
+
+  local function compile_effects(effs, range)
+    local target = range == "self" and player or enemy
+    local compiled = {}
+    for effect in all(effs) do
+      local e = copy_table(effect)
+      e.target = target
+      add(compiled, e)
+    end
+    return compiled
   end
 
   local effect_handlers = {
@@ -129,8 +140,16 @@ function battle_new()
         t0, dur = time(), 0.3
         state = "exec"
       elseif result == "escape" then
+        state = "escape"
       elseif result.type == "item" then
       elseif result.type == "spell" then
+        local spell = result.spell
+        local compiled = compile_effects(spell.effects, spell.range)
+        player.mp -= 1
+        effects = compiled
+        dur, t0 = 0, time()
+        acting = player
+        state = "exec"
       end
     elseif state == "enemy_turn" then
       local behavior = enemy.behavior(enemy, player)
@@ -157,14 +176,27 @@ function battle_new()
       elseif enemy.hp <= 0 then
         state = "win"
       elseif acting == player then
-        state = "enemy_turn"
+        if enemy.sleep then
+          enemy.sleep -= 1
+          if enemy.sleep <= 0 then enemy.sleep = nil end
+          effects = { { t = "message", target = enemy, text = "sleep" } }
+          acting = enemy
+          t0, dur = time(), 0
+          
+          state = "exec"
+        else
+          state = "enemy_turn"
+        end
       elseif acting == enemy then
         state = "player_turn"
+        action_menu = action_menu_new(enemy.sleep)
       end
     elseif state == "win" and btnp(4) then
       return "win", enemy.coins
     elseif state == "lose" and btnp(4) then
       return "lose"
+    elseif state == "escape" and btnp(4) then
+      return "escape"
     end
   end
 
@@ -180,6 +212,8 @@ function battle_new()
       draw_message("v i c t o r y", 7)
     elseif state == "lose" then
       draw_message("d e f e a t", 8)
+    elseif state == "escape" then
+      draw_message("e s c a p e d", 6)
     end
   end
 

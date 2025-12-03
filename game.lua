@@ -38,6 +38,8 @@ function game_new()
         global.coins += result
         transition(battle, world, "world")
       elseif code == "lose" then
+      elseif code == "escape" then
+        transition(battle, world, "world")
       end
     elseif state == "transition" then
       local done = time() - t0 > screen_transition_dur

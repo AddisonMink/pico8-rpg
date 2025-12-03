@@ -1,4 +1,4 @@
-function action_menu_new()
+function action_menu_new(can_escape)
   local action_menu, item_menu, spell_menu
   local state = "action"
   local me = {}
@@ -10,9 +10,9 @@ function action_menu_new()
     { "attack", "spell", "item", "escape" },
     function(action)
       return action == "attack"
-          or action == "spell" and #global.spells > 0
+          or action == "spell" and global.player.mp > 0
           or action == "item" and #global.items > 0
-          or action == "escape"
+          or action == "escape" and can_escape
     end
   )
 
@@ -32,7 +32,10 @@ function action_menu_new()
     nil,
     global.spells,
     nil,
-    nil
+    nil,
+    function(spell)
+      return pad_str(spell.name, 10) .. spell.desc
+    end
   )
   -- #endregion
 
@@ -67,7 +70,7 @@ function action_menu_new()
 
   function me:draw()
     local camera_x, camera_y = peek2(0x5f28), peek2(0x5f2a)
-    local x,y = camera_x + 8, camera_y + 128 - 56
+    local x, y = camera_x + 8, camera_y + 128 - 56
     if state == "action" then
       action_menu:draw(x, y)
     elseif state == "item" then
