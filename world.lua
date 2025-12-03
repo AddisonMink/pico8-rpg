@@ -83,6 +83,12 @@ function world_new()
     scripted_battle_tiles[key] = nil
   end
 
+  function me:reset_position()
+    x, y = 13 * 8, 15 * 8
+    camera_x, camera_y = x - 32, y - 32
+    camera(camera_x, camera_y)
+  end
+
   function me:update()
     camera(camera_x, camera_y)
     local tx, ty, tile_id = move()

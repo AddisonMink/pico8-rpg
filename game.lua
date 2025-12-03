@@ -17,6 +17,14 @@ function game_new()
     state = "transition"
   end
 
+  local function respawn()
+    world:reset_position()
+    global.coins = flr(global.coins / 2)
+    global.player.hp = global.player.max_hp
+    global.player.mp = global.player.max_mp
+    transition(battle, world, "world")
+  end
+
   function me:update()
     if state == "world" then
       local code, result = world:update()
@@ -41,6 +49,7 @@ function game_new()
         global.coins += result
         transition(battle, world, "world")
       elseif code == "lose" then
+        respawn()
       elseif code == "escape" then
         transition(battle, world, "world")
       end
@@ -51,6 +60,7 @@ function game_new()
         world:remove_scripted_battle_tile(result.key)
         transition(battle, world, "world")
       elseif code == "lose" then
+        respawn()
       elseif code == "escape" then
         transition(battle, world, "world")
       end

@@ -96,7 +96,7 @@ function battle_new(enemy)
       local target = effect.target
       local damage = effect.power
       if target.armor and not effect.magic then damage = flr(damage / 2) end
-      target.hp -= damage
+      target.hp = max(0, target.hp - damage)
       target.sleep = nil
       add(effects, { t = "flash", target = target, color = 8 }, 1)
       if target.hp <= 0 then
