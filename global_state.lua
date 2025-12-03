@@ -15,5 +15,6 @@ global = {
   -- shop data
   shop_items = {
     potion_item,
+    bomb_item
   }
 }

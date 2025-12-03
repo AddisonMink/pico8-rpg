@@ -5,3 +5,14 @@ potion_item = {
   desc = "restore 30 hp",
   effects = { { t = "heal", amount = 30 } }
 }
+
+bomb_item = {
+  name = "bomb",
+  price = 3,
+  range = "enemy",
+  desc = "20 fire damage",
+  effects = { 
+    { t = "animation", id = 160 },
+    { t = "damage", power = 20, magic = true } 
+  }
+}
