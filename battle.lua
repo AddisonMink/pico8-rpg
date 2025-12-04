@@ -11,6 +11,7 @@ function battle_new(enemy, background_id)
   -- #endregion
 
   local player = global.player
+  player.state = "idle"
   local action_menu = action_menu_new()
   local effects = {}
   local acting = nil
@@ -122,7 +123,7 @@ function battle_new(enemy, background_id)
     damage = function(effect)
       local target = effect.target
 
-      if target.invisible and not effect.magic then
+      if target.invisible then
         add(effects, { t = "message", target = target, text = "miss" })
         return
       end
@@ -168,7 +169,7 @@ function battle_new(enemy, background_id)
       effect.target.sleep = 3
     end,
     invisible = function(effect)
-      effect.target.invisible = 3
+      effect.target.invisible = 2
     end
   }
 
