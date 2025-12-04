@@ -35,7 +35,10 @@ function world_new()
     ["14,15"] = dialogue_town_shop,
     ["17,14"] = dialogue_town_inn,
     ["8,8"] = dialogue_wizard_tower,
-    ["3,13"] = dialogue_fairy_cave_1
+    ["3,13"] = dialogue_fairy_cave_1,
+    ["6,19"] = dialogue_fairy_cave_2,
+    ["3,21"] = dialogue_fairy_cave_3,
+    ["5,10"] = dialogue_fairy_cave_4
   }
 
   local scripted_battle_tiles = {

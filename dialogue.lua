@@ -106,7 +106,7 @@ to fight!
 ]]
 
   local text2 = [[
-these wood are haunted
+these woods are haunted
 by the dark elf's
 creatures.
 
@@ -168,7 +168,73 @@ help you if we can.
   return dialogue_linear_new(41, "fairies", segments)
 end
 
+function fairy_cave_2_new()
+  local text1 = [[
+we will show you the way
+out of the forest!
+]]
+
+  local text2 = [[
+ good luck to you!]]
+
+  local segments = {
+    {
+      text = text1, action = function()
+        mset(7, 20, 11)
+        mset(8, 20, 11)
+      end
+    },
+    { text = text2, action = function() end }
+  }
+  return dialogue_linear_new(41, "fairies", segments)
+end
+
+function fairy_cave_3_new()
+  local text = [[
+the dark elf is shrouded
+in illusion. there is a
+magic spell that can
+reveal him.
+]]
+
+  local segments = { { text = text, action = function() end } }
+  return dialogue_linear_new(41, "fairies", segments)
+end
+
+function fairy_cave_4_new()
+  local text1 = [[
+the dark elf's castle is
+just ahead. be careful!
+
+he is one of the red
+king's vassals. you will
+not be able to escape
+once you confront him.
+]]
+
+  local text2 = [[
+let us heal your wounds
+before you go further.
+]]
+
+  local segments = {
+    { text = text1, action = function() end },
+    {
+      text = text2,
+      action = function()
+        global.player.hp = global.player.max_hp
+        global.player.mp = global.player.max_mp
+      end
+    }
+  }
+
+  return dialogue_linear_new(41, "fairies", segments)
+end
+
 dialogue_town_shop = shop_dialogue_new(4, global.shop_items)
 dialogue_town_inn = inn_dialogue_new(4, 3)
 dialogue_wizard_tower = wizard_dialogue_new()
 dialogue_fairy_cave_1 = fairy_cave_1_new()
+dialogue_fairy_cave_2 = fairy_cave_2_new()
+dialogue_fairy_cave_3 = fairy_cave_3_new()
+dialogue_fairy_cave_4 = fairy_cave_4_new()
