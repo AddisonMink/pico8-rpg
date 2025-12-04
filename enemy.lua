@@ -72,3 +72,26 @@ function dragon_new()
     end
   }
 end
+
+function dark_elf_new()
+  return {
+    sprite_id = 206,
+    coins = 20,
+    hp = 50,
+    invisible = 5,
+    behavior = function(enemy, player)
+      local choice = flr(rnd(3))
+      if choice == 0 then
+        return {
+          name = "candle",
+          effects = {
+            { t = "animation", id = 160, target = player },
+            { t = "damage", power = 30, magic = true, target = player }
+          }
+        }
+      else
+        return attack_behavior(enemy, player)
+      end
+    end
+  }
+end

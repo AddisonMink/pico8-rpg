@@ -9,7 +9,7 @@ function world_new()
   -- #endregion
 
   -- #region state
-  local x, y = 13 * 8, 15 * 8
+  local x, y = 3 * 8, 8 * 8
   local camera_x, camera_y = x - 32, y - 32
   local moving = false
   local frames = side_frames
@@ -42,7 +42,8 @@ function world_new()
   }
 
   local scripted_battle_tiles = {
-    ["4,13"] = { spawn = dragon_new, key = "4,13" }
+    ["4,13"] = { spawn = dragon_new, key = "4,13" },
+    ["3,7"] = { spawn = dark_elf_new, key = "3,7" }
   }
 
   local function tile_pos(x, y)
