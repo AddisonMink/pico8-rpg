@@ -86,7 +86,7 @@ function dark_elf_new()
           name = "candle",
           effects = {
             { t = "animation", id = 160, target = player },
-            { t = "damage", power = 30, magic = true, target = player }
+            { t = "damage", power = 20, magic = true, target = player }
           }
         }
       else

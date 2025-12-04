@@ -2,8 +2,8 @@ potion_item = {
   name = "potion",
   price = 1,
   range = "self",
-  desc = "restore 20 hp",
-  effects = { { t = "heal", amount = 20 } }
+  desc = "restore 30 hp",
+  effects = { { t = "heal", amount = 30 } }
 }
 
 bomb_item = {
