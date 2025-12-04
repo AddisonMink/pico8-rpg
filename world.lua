@@ -9,7 +9,7 @@ function world_new()
   -- #endregion
 
   -- #region state
-  local x, y = 3 * 8, 8 * 8
+  local x, y = 13 * 8, 15 * 8
   local camera_x, camera_y = x - 32, y - 32
   local moving = false
   local frames = side_frames
@@ -39,6 +39,7 @@ function world_new()
     ["6,19"] = dialogue_fairy_cave_2,
     ["3,21"] = dialogue_fairy_cave_3,
     ["5,10"] = dialogue_fairy_cave_4,
+    ["1,7"] = dialogue_fairy_cave_5,
     ["29,19"] = priestess_dialogue,
     ["30,19"] = priestess_dialogue
   }

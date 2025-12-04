@@ -8,6 +8,7 @@ global = {
     mp = 1,
     max_mp = 1
   },
+  strength = 10,
   spells = { dispel_spell},
   items = {},
   coins = 5,

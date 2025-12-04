@@ -231,14 +231,47 @@ before you go further.
   return dialogue_linear_new(41, "fairies", segments)
 end
 
+function fairy_cave_5_new()
+  local text1 = [[
+we are the guardians
+of the sacred sping.
+
+drink from it to
+increase your power.
+]]
+
+  local text2 = [[
+now that the dark
+elf is gone, we will
+show the townspeople
+how to make sacred
+water.
+]]
+
+  local segments = {
+    {
+      text = text1,
+      action = function()
+        global.player.max_hp += 10
+        global.strength += 10
+        global.player.hp = global.player.max_hp
+        global.player.mp = global.player.max_mp
+      end
+    },
+    { text = text2, action = function() end }
+  }
+
+  return dialogue_linear_new(41, "fairies", segments)
+end
+
 function priestess_dialogue_new()
   local text = [[
 i will teach you a
-spellto break evil 
+spellto break evil
 enchantments.
 
 illusions and armor
-will shatter before 
+will shatter before
 it.
   ]]
 
@@ -269,4 +302,5 @@ dialogue_fairy_cave_1 = fairy_cave_1_new()
 dialogue_fairy_cave_2 = fairy_cave_2_new()
 dialogue_fairy_cave_3 = fairy_cave_3_new()
 dialogue_fairy_cave_4 = fairy_cave_4_new()
+dialogue_fairy_cave_5 = fairy_cave_5_new()
 priestess_dialogue = priestess_dialogue_new()
