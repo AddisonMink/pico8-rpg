@@ -187,6 +187,12 @@ function battle_new(enemy, background_id)
     end,
     invisible = function(effect)
       effect.target.invisible = 2
+    end,
+    dispel = function(effect)
+      local target = effect.target
+      target.armor = nil
+      target.invisible = nil
+      target.sleep = nil
     end
   }
 

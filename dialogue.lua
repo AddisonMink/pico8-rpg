@@ -231,6 +231,37 @@ before you go further.
   return dialogue_linear_new(41, "fairies", segments)
 end
 
+function priestess_dialogue_new()
+  local text = [[
+i will teach you a
+spellto break evil 
+enchantments.
+
+illusions and armor
+will shatter before 
+it.
+  ]]
+
+  local text2 = [[
+there will be more
+content here later.
+]]
+
+  local segments = {
+    {
+      text = text,
+      action = function()
+        global.player.max_mp += 1
+        global.player.mp = global.player.max_mp
+        add(global.spells, dispel_spell)
+      end
+    },
+    { text = text2, action = function() end }
+  }
+
+  return dialogue_linear_new(66, "priestess", segments)
+end
+
 dialogue_town_shop = shop_dialogue_new(4, global.shop_items)
 dialogue_town_inn = inn_dialogue_new(4, 3)
 dialogue_wizard_tower = wizard_dialogue_new()
@@ -238,3 +269,4 @@ dialogue_fairy_cave_1 = fairy_cave_1_new()
 dialogue_fairy_cave_2 = fairy_cave_2_new()
 dialogue_fairy_cave_3 = fairy_cave_3_new()
 dialogue_fairy_cave_4 = fairy_cave_4_new()
+priestess_dialogue = priestess_dialogue_new()

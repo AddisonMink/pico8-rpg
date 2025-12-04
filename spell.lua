@@ -7,3 +7,13 @@ sleep_spell = {
     { t = "sleep" }
   }
 }
+
+dispel_spell = {
+  name = "dispel",
+  range = "other",
+  desc = "remove status",
+  effects = {
+    { t = "animation", id = 192 },
+    { t = "dispel" }
+  }
+}
