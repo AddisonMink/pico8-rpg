@@ -5,11 +5,11 @@ global = {
     sprite_id = 128,
     hp = 50,
     max_hp = 50,
-    mp = 1,
-    max_mp = 1
+    mp = 0,
+    max_mp = 0
   },
   strength = 10,
-  spells = { dispel_spell},
+  spells = {},
   items = {},
   coins = 5,
 
