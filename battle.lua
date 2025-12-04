@@ -203,7 +203,7 @@ function battle_new(enemy, background_id)
       if result == "attack" then
         player.state = "attack"
         player.t0 = time()
-        effects = { { t = "attack", target = enemy } }
+        effects = { { t = "attack", target = enemy, power = 50 } }
         acting = player
         t0, dur = time(), 0.3
         state = "exec"

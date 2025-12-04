@@ -5,6 +5,8 @@ function game_new()
   local draw_trans_func2 = function() world:draw() end
   local next_state = "world"
   local t0 = time()
+  local scripted_battle_key = nil
+  local scripted_battle_func = nil
   local state = "transition"
   local me = {}
 
@@ -36,6 +38,8 @@ function game_new()
         transition(world, battle, "battle")
       elseif code == "scripted_battle" then
         battle = battle_new(result.spawn())
+        scripted_battle_key = result.key
+        scripted_battle_func = result.func
         transition(world, battle, "scripted_battle")
       end
     elseif state == "dialogue" then
@@ -57,7 +61,8 @@ function game_new()
       local code, result = battle:update()
       if code == "win" then
         global.coins += result
-        world:remove_scripted_battle_tile(result.key)
+        world:remove_scripted_battle_tile(scripted_battle_key)
+        if scripted_battle_func then scripted_battle_func() end
         transition(battle, world, "world")
       elseif code == "lose" then
         respawn()
