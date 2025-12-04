@@ -10,6 +10,7 @@ function battle_new(enemy, background_id)
   local camera_x, camera_y = peek2(0x5f28), peek2(0x5f2a)
   -- #endregion
 
+  -- #region state
   local player = global.player
   player.state = "idle"
   local action_menu = action_menu_new()
@@ -18,6 +19,7 @@ function battle_new(enemy, background_id)
   local flash, anim, message, t0 = nil, nil, nil, time()
   local state = "player_turn"
   local me = {}
+  -- #endregion
 
   local function draw_background()
     for x = 0, 8 do
@@ -30,6 +32,20 @@ function battle_new(enemy, background_id)
     local x = camera_x + 64 - (#text * 2)
     local y = camera_y + 64 - 2
     print(text, x, y, color)
+  end
+
+  local function draw_status(x, y, id, duration)
+    spr(id, x, y)
+    y += 9
+    for i = 1, min(duration, 4) do
+      local x = x + (i - 1) * 2
+      rectfill(x, y, x, y, 7)
+    end
+    y += 2
+    for i = 1, duration - 4 do
+      local x = x + (i - 1) * 2
+      rectfill(x, y, x, y, 7)
+    end
   end
 
   local function draw_unit(unit, x, y)
@@ -67,29 +83,27 @@ function battle_new(enemy, background_id)
 
     if unit.sleep then
       spr(142, x + 16, y)
-      for i = 1, unit.sleep do
-        local x = x + 24 + i * 2
-        rectfill(x, y, x, y, 7)
-      end
     end
 
-    if unit.invisible then
-      spr(158, x + 16, y + 8)
-      for i = 1, unit.invisible do
-        local x = x + 24 + i * 2
-        rectfill(x, y, x, y, 7)
-      end
-    end
-
-    if unit.armor then
-      spr(143, x + 16, y + 8)
-    end
-
-    local x, y = x, y + 21
-    rectfill(x - 1, y - 2, x + 21, y + 2, 0)
+    -- hp bar
+    local hp_x, y = x, y + 21
+    rectfill(hp_x - 1, y - 2, hp_x + 21, y + 2, 0)
     for i = 1, ceil(unit.hp / 10) do
-      rectfill(x, y, x, y, 8)
-      x += 2
+      rectfill(hp_x, y, hp_x, y, 8)
+      hp_x += 2
+    end
+
+    -- status icons
+    local statuses = {}
+    if unit.armor then add(statuses, { 143, unit.armor }) end
+    if unit.sleep then add(statuses, { 142, unit.sleep }) end
+    if unit.invisible then add(statuses, { 158, unit.invisible }) end
+    local status_width = #statuses * 10 - 2
+    local x = x + 8 - flr(status_width / 2)
+    for status in all(statuses) do
+      local id, duration = status[1], status[2]
+      draw_status(x, y + 4, id, duration)
+      x += 10
     end
   end
 
@@ -104,11 +118,14 @@ function battle_new(enemy, background_id)
     return compiled
   end
 
-  local function dec_status(target, status)
-    if target[status] then
-      target[status] -= 1
-      if target[status] <= 0 then
-        target[status] = nil
+  local function dec_status(target)
+    local statuses = { "armor", "sleep", "invisible" }
+    for status in all(statuses) do
+      if target[status] then
+        target[status] -= 1
+        if target[status] <= 0 then
+          target[status] = nil
+        end
       end
     end
   end
@@ -228,8 +245,7 @@ function battle_new(enemy, background_id)
       if player.state ~= "dead" then
         player.state = "idle"
       end
-      dec_status(acting, "invisible")
-      dec_status(acting, "sleep")
+      dec_status(acting)
 
       if player.hp <= 0 then
         state = "lose"

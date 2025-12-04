@@ -19,7 +19,7 @@ function hobgoblin_new()
     sprite_id = 234,
     coins = 3,
     hp = 20,
-    armor = true,
+    armor = 8,
     behavior = attack_behavior
   }
 end
