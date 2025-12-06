@@ -32,8 +32,17 @@ function world_new()
   }
 
   local dialogue_map = {
+    ["15,13"] = dialogue_town_shop,
+    ["14,14"] = dialogue_town_shop,
+    ["15,14"] = dialogue_town_shop,
+    ["16,14"] = dialogue_town_shop,
+    ["17,14"] = dialogue_town_shop,
     ["14,15"] = dialogue_town_shop,
-    ["17,14"] = dialogue_town_inn,
+    ["15,15"] = dialogue_town_shop,
+    ["16,15"] = dialogue_town_shop,
+    ["17,15"] = dialogue_town_shop,
+    ["18,15"] = dialogue_town_shop,
+
     ["8,8"] = dialogue_wizard_tower,
     ["3,13"] = dialogue_fairy_cave_1,
     ["6,19"] = dialogue_fairy_cave_2,
