@@ -1,0 +1,30 @@
+type State = String
+
+type Result
+  = { t = "result", value = ? },
+  | { t = "cancel" },
+  | { t = "state", value = State }
+
+class Menu[Elem = String, Result](
+  title: String,
+  elems: List[Elem],
+  draw_elem(elem: Elem) => ()
+  measure_elem(elem: Elem) => (Int, Int)
+  validate_elem(elem: Elem) => Bool
+  on_select(elem: Elem) => Result,
+  min_width: Int,
+  min_height: Int,
+  allow_cancel: Bool
+) {
+  def update(x: Int, y: Int) => Option[Result]
+  def draw(x: Int, y: Int) => ()
+}
+
+class MenuGraph[](
+  menus: Map[State, Menu[_]],
+  state: State,
+) {
+  def update() => Option[Result]
+  def draw(x: Int, y: Int) => ()
+}
+
