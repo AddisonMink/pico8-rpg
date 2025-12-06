@@ -41,6 +41,9 @@ function game_new()
         scripted_battle_key = result.key
         scripted_battle_func = result.func
         transition(world, battle, "scripted_battle")
+      elseif btnp(4) then
+        dialogue = status_menu_new()
+        transition(world, dialogue, "dialogue")
       end
     elseif state == "dialogue" then
       local done = dialogue:update()

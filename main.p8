@@ -4,6 +4,7 @@ __lua__
 #include util.lua
 #include menu.lua
 #include menu_tree.lua
+#include status_menu.lua
 #include action_menu.lua
 #include spell.lua
 #include item.lua
@@ -14,14 +15,8 @@ __lua__
 #include battle.lua
 #include game.lua
 
-
 function _init()
   game = game_new()
-  if debug then
-    global.player.spells = debug.spells
-    global.player.max_mp = debug.max_mp
-    global.player.mp = debug.max_mp    
-  end
 end
 
 function _update()
