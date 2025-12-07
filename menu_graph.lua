@@ -28,13 +28,29 @@ function menu_graph_new(state, menus, allow_cancel)
   return me
 end
 
--- segment = { text = string, action = function() => () }
-function menu_list_new(title, segments)
+-- segment = string | function() end
+function menu_list_new(title, segments, min_width, min_height)
   local state = 1
   local menus = {}
+  local segs = {}
+  local last_seg = nil
 
-  for segment in all(segments) do
-    local last = state == #segments
+  for s in all(segments) do
+    if type(s) == "function" then
+      if last_seg then
+        last_seg.action = s
+      end
+    else
+      last_seg = { text = s }
+      add(segs, last_seg)
+    end
+  end
+
+  for segment in all(segs) do
+    if type(segment) == "function" then
+    end
+
+    local last = state == #segs
     local next_state = last and nil or state + 1
     local elem = last and "leave" or "continue"
     local on_select = segment.action or function() end
@@ -45,7 +61,9 @@ function menu_list_new(title, segments)
       on_select = on_select,
       next_state = function()
         return not last and next_state
-      end
+      end,
+      min_width = min_width,
+      min_height = min_height
     })
     add(menus, menu)
     state = next_state

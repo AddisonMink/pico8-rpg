@@ -25,23 +25,21 @@ function _init()
     "Tutorial",
     {
       {
-        text = {
-          "Welcome to the tutorial!",
-          "In this game, you will embark",
-          "on an epic adventure."
-        },
-        action = function()
-          g_var = "some global state"
-        end
+        "Welcome to the tutorial!",
+        "In this game, you will embark",
+        "on an epic adventure."
       },
+      function()
+        g_var = "some global state"
+      end,
       {
-        text = {
-          "Use the arrow keys to navigate",
-          "through menus and make choices.",
-          "Good luck!"
-        }
+        "Use the arrow keys to navigate",
+        "through menus and make choices.",
+        "Good luck!"
       }
-    }
+    },
+    100,
+    80
   )
 end
 
@@ -54,10 +52,11 @@ end
 function _draw()
   cls()
   --game:draw()
-  menu:draw(40, 20)
+  menu:draw(0, 0)
   if result then
     print("result: " .. result.type, 0, 120, 7)
   end
+  print("g_var: " .. tostring(g_var), 0, 110, 7)
 end
 
 __gfx__
