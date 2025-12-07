@@ -87,6 +87,9 @@ function menu2_new(params)
       local elem = elems[index]
       if not validate_elem(elem) then return end
       local result = on_select(elem)
+      if result == "repeat" then
+        return nil
+      end
       local state = next_state(elem)
       if state then
         return { type = "state", state = state }
