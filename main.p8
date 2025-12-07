@@ -19,44 +19,16 @@ __lua__
 #include menu_graph.lua
 
 function _init()
-  --game = game_new()
-
-  menu = menu_list_new(
-    "Tutorial",
-    {
-      {
-        "Welcome to the tutorial!",
-        "In this game, you will embark",
-        "on an epic adventure."
-      },
-      function()
-        g_var = "some global state"
-      end,
-      {
-        "Use the arrow keys to navigate",
-        "through menus and make choices.",
-        "Good luck!"
-      }
-    },
-    100,
-    80
-  )
+  game = game_new()
 end
 
 function _update()
-  --game:update()
-  if result then return end
-  result = menu:update()
+  game:update()
 end
 
 function _draw()
   cls()
-  --game:draw()
-  menu:draw(0, 0)
-  if result then
-    print("result: " .. result.type, 0, 120, 7)
-  end
-  print("g_var: " .. tostring(g_var), 0, 110, 7)
+  game:draw()
 end
 
 __gfx__

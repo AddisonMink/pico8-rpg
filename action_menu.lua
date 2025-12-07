@@ -1,83 +1,61 @@
 function action_menu_new(can_escape)
-  local action_menu, item_menu, spell_menu
-  local state = "action"
-  local me = {}
-
-  -- #region initialization
-  action_menu = menu_new(
-    "action",
-    nil,
-    { "attack", "spell", "item", "escape" },
-    function(action)
+  local action_menu = menu2_new({
+    title = "action",
+    elems = { "attack", "spell", "item", "escape" },
+    validate_elem = function(action)
       return action == "attack"
           or action == "spell" and #global.spells > 0 and global.player.mp > 0
           or action == "item" and #table_values(global.items) > 0
           or action == "escape" and can_escape
+    end,
+    next_state = function(action)
+      return (action == "spell" or action == "item") and action
     end
-  )
+  })
 
-  item_menu = menu_new(
-    "item",
-    nil,
-    table_values(global.items),
-    nil,
-    nil,
-    function(item)
-      return pad_str(item.item.name .. " x" .. item.quantity,12) .. item.item.desc
+  local item_menu = menu2_new({
+    title = "item",
+    elems = table_values(global.items),
+    stringify_elem = function(item)
+      return pad_str(item.item.name .. " x" .. item.quantity, 12) .. item.item.desc
     end
-  )
+  })
 
-  spell_menu = menu_new(
-    "spell",
-    nil,
-    global.spells,
-    nil,
-    nil,
-    function(spell)
+  local spell_menu = menu2_new({
+    title = "spell",
+    elems = global.spells,
+    stringify_elem = function(spell)
       return pad_str(spell.name, 10) .. spell.desc
     end
+  })
+
+  local menu_graph = menu_graph_new(
+    "action",
+    {
+      action = action_menu,
+      item = item_menu,
+      spell = spell_menu
+    },
+    true
   )
-  -- #endregion
+
+  local me = {}
 
   function me:update()
-    if state == "action" then
-      local result = action_menu:update()
-      if result == "attack" then
-        return "attack"
-      elseif result == "spell" then
-        state = "spell"
-      elseif result == "item" then
-        state = "item"
-      elseif result == "escape" then
-        return "escape"
-      end
-    elseif state == "item" then
-      local result = item_menu:update()
-      if result == "cancel" then
-        state = "action"
-      elseif result ~= nil then
-        return { type = "item", item = result }
-      end
-    elseif state == "spell" then
-      local result = spell_menu:update()
-      if result == "cancel" then
-        state = "action"
-      elseif result ~= nil then
-        return { type = "spell", spell = result }
-      end
+    local result = menu_graph:update()
+    if not result then return end
+
+    if result.type == "cancel" then
+      result = { type = "result", result = "attack" }
     end
+
+    return result.result
   end
 
   function me:draw()
     local camera_x, camera_y = peek2(0x5f28), peek2(0x5f2a)
     local x, y = camera_x + 8, camera_y + 128 - 56
-    if state == "action" then
-      action_menu:draw(x, y)
-    elseif state == "item" then
-      item_menu:draw(x, y)
-    elseif state == "spell" then
-      spell_menu:draw(x, y)
-    end
+    menu_graph:draw(x, y)
   end
 
   return me

@@ -1,4 +1,5 @@
 sleep_spell = {
+  type = "spell",
   name = "sleep",
   range = "other",
   desc = "put foe to sleep",
@@ -9,6 +10,7 @@ sleep_spell = {
 }
 
 dispel_spell = {
+  type = "spell",
   name = "dispel",
   range = "other",
   desc = "remove status",

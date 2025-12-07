@@ -22,6 +22,11 @@ function menu_graph_new(state, menus, allow_cancel)
   end
 
   function me:draw(x, y)
+    print(state,0,0,7) -- debug
+    if menus[state].draw == nil then
+      print("no menu for state: " .. tostring(state),0,10,8)
+      return
+    end
     menus[state]:draw(x, y)
   end
 

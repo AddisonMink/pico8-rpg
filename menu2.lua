@@ -30,7 +30,7 @@
 
 function menu2_new(params)
   local title = params.title
-  local text = params.text
+  local text = params.text or {}
   local elems = params.elems or {}
 
   local validate_elem = params.validate_elem
@@ -68,7 +68,7 @@ function menu2_new(params)
 
     for _, e in ipairs(elems) do
       local str = stringify_elem(e)
-      w = max(w, #str * 4)
+      w = max(w, #str * 4 + 8)
       h += 8
     end
 
@@ -85,6 +85,7 @@ function menu2_new(params)
 
     if btnp(4) then
       local elem = elems[index]
+      if not validate_elem(elem) then return end
       local result = on_select(elem)
       local state = next_state(elem)
       if state then
@@ -118,7 +119,7 @@ function menu2_new(params)
 
     for i, e in ipairs(elems) do
       local str = stringify_elem(e)
-      local color = validate_elem(e) and 7 or 8
+      local color = validate_elem(e) and 7 or 5
       print(str, cx + 8, cy, color)
       cy += 8
     end
