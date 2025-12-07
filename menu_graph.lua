@@ -27,3 +27,29 @@ function menu_graph_new(state, menus, allow_cancel)
 
   return me
 end
+
+-- segment = { text = string, action = function() => () }
+function menu_list_new(title, segments)
+  local state = 1
+  local menus = {}
+
+  for segment in all(segments) do
+    local last = state == #segments
+    local next_state = last and nil or state + 1
+    local elem = last and "leave" or "continue"
+    local on_select = segment.action or function() end
+    local menu = menu2_new({
+      title = title,
+      text = segment.text,
+      elems = { elem },
+      on_select = on_select,
+      next_state = function()
+        return not last and next_state
+      end
+    })
+    add(menus, menu)
+    state = next_state
+  end
+
+  return menu_graph_new(1, menus)
+end

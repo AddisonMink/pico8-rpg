@@ -20,51 +20,29 @@ __lua__
 
 function _init()
   --game = game_new()
-  main_menu = menu2_new({
-    title = "main menu",
-    text = {
-      "select an option:"
-    },
-    elems = {
-      "start",
-      "options",
-      "exit"
-    },
-    next_state = function(e)
-      return e == "options" and "options"
-    end
-  })
 
-  option_menu = menu2_new({
-    title = "options",
-    text = {
-      "adjust your settings:"
-    },
-    elems = {
-      "sound",
-      "graphics"
-    },
-    next_state = function(e) return e end
-  })
-
-  sound_menu = menu2_new({
-    title = "sound options",
-    text = {
-      "adjust sound settings:"
-    },
-    elems = {
-      "volume",
-      "mute"
+  menu = menu_list_new(
+    "Tutorial",
+    {
+      {
+        text = {
+          "Welcome to the tutorial!",
+          "In this game, you will embark",
+          "on an epic adventure."
+        },
+        action = function()
+          g_var = "some global state"
+        end
+      },
+      {
+        text = {
+          "Use the arrow keys to navigate",
+          "through menus and make choices.",
+          "Good luck!"
+        }
+      }
     }
-  })
-
-  menus = {
-    main = main_menu,
-    options = option_menu,
-    sound = sound_menu
-  }
-
-  menu = menu_graph_new("main", menus, true)
+  )
 end
 
 function _update()
