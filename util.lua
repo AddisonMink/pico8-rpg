@@ -70,3 +70,16 @@ function draw_screen_transition(draw_func1, draw_func2, elapsed)
     end
   end
 end
+
+-- draw npatch panel
+function draw_panel(x, y, w, h)
+  spr(2, x, y)
+  spr(3, x + w - 8, y)
+  spr(18, x, y + h - 8)
+  spr(19, x + w - 8, y + h - 8)
+  sspr(20, 0, 8, 8, x + 8, y, w - 16, 8)
+  sspr(16, 4, 8, 8, x, y + 8, 8, h - 16)
+  sspr(20, 8, 8, 8, x + 8, y + h - 8, w - 16, 8)
+  sspr(24, 4, 8, 8, x + w - 8, y + 8, 8, h - 16)
+  rectfill(x + 8, y + 8, x + w - 9, y + h - 9, 1)
+end

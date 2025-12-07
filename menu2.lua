@@ -98,11 +98,9 @@ function menu2_new(params)
   end
 
   function me:draw(x, y)
-    local x2, y2 = x + w - 1, y + h - 1
     local cx, cy = x + 4, y + 4
 
-    rectfill(x, y, x2, y2, 1)
-    rect(x, y, x2, y2, 7)
+    draw_panel(x, y, w, h)
 
     if title then
       print(title, cx, cy, 7)
