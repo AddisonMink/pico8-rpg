@@ -1,5 +1,6 @@
--- notes for an improved menu type.
+notes for an improved menu type.
 
+```
 type State = String
 
 type Result[A]
@@ -32,4 +33,5 @@ class MenuGraph[](
   def update() => Option[Result[A]]
   def draw(x: Int, y: Int) => ()
 }
+```
 

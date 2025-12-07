@@ -15,17 +15,71 @@ __lua__
 #include battle.lua
 #include game.lua
 
+#include menu2.lua
+#include menu_graph.lua
+
 function _init()
-  game = game_new()
+  --game = game_new()
+  main_menu = menu2_new({
+    title = "main menu",
+    text = {
+      "select an option:"
+    },
+    elems = {
+      "start",
+      "options",
+      "exit"
+    },
+    next_state = function(e)
+      return e == "options" and "options"
+    end
+  })
+
+  option_menu = menu2_new({
+    title = "options",
+    text = {
+      "adjust your settings:"
+    },
+    elems = {
+      "sound",
+      "graphics"
+    },
+    next_state = function(e) return e end
+  })
+
+  sound_menu = menu2_new({
+    title = "sound options",
+    text = {
+      "adjust sound settings:"
+    },
+    elems = {
+      "volume",
+      "mute"
+    }
+  })
+
+  menus = {
+    main = main_menu,
+    options = option_menu,
+    sound = sound_menu
+  }
+
+  menu = menu_graph_new("main", menus, true)
 end
 
 function _update()
-  game:update()
+  --game:update()
+  if result then return end
+  result = menu:update()
 end
 
 function _draw()
   cls()
-  game:draw()
+  --game:draw()
+  menu:draw(40, 20)
+  if result then
+    print("result: " .. result.type, 0, 120, 7)
+  end
 end
 
 __gfx__
