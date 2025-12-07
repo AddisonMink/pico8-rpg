@@ -63,7 +63,7 @@ function status_menu_new()
 
   function me:draw()
     local camera_x, camera_y = peek2(0x5f28), peek2(0x5f2a)
-    menu_graph:draw(camera_x, camera_y + 16)
+    menu_graph:draw(camera_x + 4, camera_y + 16)
   end
 
   return me
