@@ -154,10 +154,10 @@ help you if we can.
   local segments = {
     {
       text = text1, action = function()
-        mset(3, 14, 11)
-        mset(3, 15, 11)
-        mset(4, 15, 11)
-        mset(5, 15, 11)
+        set_tile(3, 14, 11)
+        set_tile(3, 15, 11)
+        set_tile(4, 15, 11)
+        set_tile(5, 15, 11)
       end
     },
     {
@@ -180,8 +180,8 @@ out of the forest!
   local segments = {
     {
       text = text1, action = function()
-        mset(7, 20, 11)
-        mset(8, 20, 11)
+        set_tile(7, 20, 11)
+        set_tile(8, 20, 11)
       end
     },
     { text = text2, action = function() end }

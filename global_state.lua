@@ -1,4 +1,5 @@
 global = {
+  -- player data
   player = {
     player = true,
     sprite_id = 128,
@@ -10,14 +11,26 @@ global = {
   strength = 10,
   spells = {},
   items = {},
-  coins = 0
+  coins = 0,
+
+  -- world data
+  tile_changes = {}
 }
 
 saved = {
+  -- player data
   player = {
     max_hp = 50,
     max_mp = 0
   },
   spells = {},
-  coins = 0
+  coins = 0,
+
+  -- world data
+  tile_changes = {}
 }
+
+function set_tile(x, y, tile_id)
+  mset(x, y, tile_id)
+  add(global.tile_changes, { x = x, y = y, tile_id = tile_id })
+end

@@ -3,6 +3,20 @@ function town_new()
   local credits = 5
   local me = {}
 
+  local function save()
+    saved.player.max_hp = global.player.max_hp
+    saved.player.max_mp = global.player.max_mp
+    saved.spells = global.spells
+    saved.coins = global.coins
+    global.player.hp = global.player.max_hp
+    global.player.mp = global.player.max_mp
+    global.items = {}
+
+    for tile_change in all(global.tile_changes) do
+      add(saved.tile_changes, tile_change)
+    end
+  end
+
   local start_menu = menu2_new({
     title = "town",
     text = { "welcome back!" },
@@ -16,15 +30,7 @@ function town_new()
     title = "rest",
     text = { "hp and mp restored!" },
     elems = { "buy items" },
-    on_select = function(e)
-      saved.player.max_hp = global.player.max_hp
-      saved.player.max_mp = global.player.max_mp
-      saved.spells = global.spells
-      saved.coins = global.coins
-      global.player.hp = global.player.max_hp
-      global.player.mp = global.player.max_mp
-      global.items = {}
-    end,
+    on_select = save,
     next_state = function() return "item" end,
     min_width = min_w,
     min_height = min_h

@@ -29,7 +29,12 @@ function game_new()
     global.player.mp = global.player.max_mp
 
     -- reload map
+    global.tile_changes = saved.tile_changes
+
     reload(0x2000, 0x2000, 0x1000)
+    for tile_change in all(saved.tile_changes) do
+      mset(tile_change.x, tile_change.y, tile_change.tile_id)
+    end
 
     transition(battle, world, "world")
   end
