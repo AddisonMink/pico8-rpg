@@ -1,5 +1,4 @@
 function game_new()
-  local world = world_new()
   local battle, dialogue = nil
   local draw_trans_func1 = function() end
   local draw_trans_func2 = function() world:draw() end

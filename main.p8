@@ -20,6 +20,7 @@ __lua__
 #include menu_graph.lua
 
 function _init()
+  world = world_new()
   game = game_new()
 end
 
