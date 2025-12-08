@@ -5,6 +5,15 @@ function town_new()
 
   local start_menu = menu2_new({
     title = "town",
+    text = { "welcome back!" },
+    elems = { "rest and save" },
+    next_state = function() return "rest" end,
+    min_width = min_w,
+    min_height = min_h
+  })
+
+  local rest_menu = menu2_new({
+    title = "rest",
     text = { "hp and mp restored!" },
     elems = { "buy items" },
     on_select = function(e)
@@ -52,6 +61,7 @@ function town_new()
     "start",
     {
       start = start_menu,
+      rest = rest_menu,
       item = item_menu
     }
   )
