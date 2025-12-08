@@ -130,6 +130,10 @@ function world_new()
     local scripted_battle = scripted_battle_tiles[key]
     dialogue = dialogue_map[key]
 
+    if dialogue == dialogue_town_shop then
+      dialogue = town_new()
+    end
+
     if scripted_battle and not on_scripted_battle_tile then
       on_scripted_battle_tile = true
       return "scripted_battle", scripted_battle

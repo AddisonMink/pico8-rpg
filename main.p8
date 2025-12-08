@@ -13,6 +13,7 @@ __lua__
 #include dialogue.lua
 #include world.lua
 #include battle.lua
+#include town.lua
 #include game.lua
 
 #include menu2.lua
