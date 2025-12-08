@@ -27,6 +27,10 @@ function game_new()
     global.items = {}
     global.player.hp = global.player.max_hp
     global.player.mp = global.player.max_mp
+
+    -- reload map
+    reload(0x2000, 0x2000, 0x1000)
+
     transition(battle, world, "world")
   end
 
