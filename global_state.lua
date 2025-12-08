@@ -11,7 +11,7 @@ global = {
   strength = 10,
   spells = {},
   items = {},
-  coins = 5,
+  coins = 0,
 
   -- shop data
   shop_items = {

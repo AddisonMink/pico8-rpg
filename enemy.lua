@@ -8,7 +8,7 @@ end
 function goblin_new()
   return {
     sprite_id = 236,
-    coins = 1,
+    coins = 0,
     hp = 20,
     behavior = attack_behavior
   }
@@ -17,7 +17,7 @@ end
 function hobgoblin_new()
   return {
     sprite_id = 234,
-    coins = 3,
+    coins = 0,
     hp = 20,
     armor = 8,
     behavior = attack_behavior
@@ -27,7 +27,7 @@ end
 function witch_new()
   return {
     sprite_id = 232,
-    coins = 3,
+    coins = 0,
     hp = 20,
     behavior = function(enemy, player)
       local choice = flr(rnd(2))
