@@ -1,5 +1,4 @@
 global = {
-  -- player data
   player = {
     player = true,
     sprite_id = 128,
@@ -11,11 +10,14 @@ global = {
   strength = 10,
   spells = {},
   items = {},
-  coins = 0,
+  coins = 0
+}
 
-  -- shop data
-  shop_items = {
-    potion_item,
-    bomb_item
-  }
+saved = {
+  player = {
+    max_hp = 50,
+    max_mp = 0
+  },
+  spells = {},
+  coins = 0
 }

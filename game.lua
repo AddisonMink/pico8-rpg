@@ -20,7 +20,11 @@ function game_new()
 
   local function respawn()
     world:reset_position()
-    global.coins = flr(global.coins / 2)
+    global.player.max_hp = saved.player.max_hp
+    global.player.max_mp = saved.player.max_mp
+    global.coins = saved.coins
+    global.spells = saved.spells
+    global.items = {}
     global.player.hp = global.player.max_hp
     global.player.mp = global.player.max_mp
     transition(battle, world, "world")

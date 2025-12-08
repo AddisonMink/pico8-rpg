@@ -17,6 +17,10 @@ function town_new()
     text = { "hp and mp restored!" },
     elems = { "buy items" },
     on_select = function(e)
+      saved.player.max_hp = global.player.max_hp
+      saved.player.max_mp = global.player.max_mp
+      saved.spells = global.spells
+      saved.coins = global.coins
       global.player.hp = global.player.max_hp
       global.player.mp = global.player.max_mp
       global.items = {}
