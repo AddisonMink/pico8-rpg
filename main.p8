@@ -4,6 +4,8 @@ __lua__
 #include util.lua
 #include menu.lua
 #include menu_tree.lua
+#include menu2.lua
+#include menu_graph.lua
 #include status_menu.lua
 #include action_menu.lua
 #include spell.lua
@@ -15,9 +17,6 @@ __lua__
 #include battle.lua
 #include town.lua
 #include game.lua
-
-#include menu2.lua
-#include menu_graph.lua
 
 function _init()
   world = world_new()

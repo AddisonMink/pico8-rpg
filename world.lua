@@ -43,7 +43,7 @@ function world_new()
     ["17,15"] = dialogue_town_shop,
     ["18,15"] = dialogue_town_shop,
 
-    ["8,8"] = dialogue_wizard_tower,
+    ["8,8"] = dialogue_wizard,
     ["3,13"] = dialogue_fairy_cave_1,
     ["6,19"] = dialogue_fairy_cave_2,
     ["3,21"] = dialogue_fairy_cave_3,

@@ -94,40 +94,33 @@ function inn_dialogue_new(npc_sprite_id, cost)
   return dialogue_simple_new(npc_sprite_id, menu)
 end
 
-local dialogue_wizard = dialo
-
-function wizard_dialogue_new()
-  local text1 = [[
-i will teach you a
-spell to lull your
-foes to slumber.
-
-then you can escape
-if you do not wish
-to fight!
-]]
-
-  local text2 = [[
-these woods are haunted
-by the dark elf's
-creatures.
-
-beware the dragon!
-  ]]
-
-  local function action1()
-    global.player.max_mp += 1
-    global.player.mp = global.player.max_mp
-    add(global.spells, sleep_spell)
-  end
-
-  local segments = {
-    { text = text1, action = action1 },
-    { text = text2, action = function() end }
-  }
-
-  return dialogue_linear_new(43, "wizard", segments)
-end
+dialogue_wizard = menu_list_new(
+  "wizard",
+  {
+    {
+      "i will teach you a",
+      "spell to lull your",
+      "foes to slumber.",
+      "",
+      "then you can escape",
+      "if you do not wish",
+      "to fight!"
+    },
+    function()
+      global.player.max_mp += 1
+      global.player.mp = global.player.max_mp
+      add(global.spells, sleep_spell)
+    end,
+    {
+      "these woods are haunted",
+      "by the dark elf's",
+      "creatures.",
+      "",
+      "beware the dragon!"
+    }
+  },
+  43
+)
 
 function fairy_cave_1_new()
   local text1 = [[
@@ -299,7 +292,6 @@ end
 
 dialogue_town_shop = shop_dialogue_new(4, global.shop_items)
 dialogue_town_inn = inn_dialogue_new(4, 3)
-dialogue_wizard_tower = wizard_dialogue_new()
 dialogue_fairy_cave_1 = fairy_cave_1_new()
 dialogue_fairy_cave_2 = fairy_cave_2_new()
 dialogue_fairy_cave_3 = fairy_cave_3_new()

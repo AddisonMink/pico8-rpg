@@ -23,7 +23,7 @@ function menu_graph_new(state, menus, allow_cancel)
 
   function me:draw(x, y)
     if menus[state].draw == nil then
-      print("no menu for state: " .. tostring(state),0,10,8)
+      print("no menu for state: " .. tostring(state), 0, 10, 8)
       return
     end
     menus[state]:draw(x, y)
@@ -33,7 +33,7 @@ function menu_graph_new(state, menus, allow_cancel)
 end
 
 -- segment = string | function() end
-function menu_list_new(title, segments, min_width, min_height)
+function menu_list_new(title, segments, sprite_id, min_width, min_height)
   local state = 1
   local menus = {}
   local segs = {}
@@ -67,7 +67,8 @@ function menu_list_new(title, segments, min_width, min_height)
         return not last and next_state
       end,
       min_width = min_width,
-      min_height = min_height
+      min_height = min_height,
+      npc_sprite_id = sprite_id
     })
     add(menus, menu)
     state = next_state
