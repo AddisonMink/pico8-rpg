@@ -14,6 +14,10 @@ function town_new()
     for tile_change in all(global.tile_changes) do
       add(saved.tile_changes, tile_change)
     end
+
+    for data_id, state in pairs(global.dialogue_states) do
+      saved.dialogue_states[data_id] = state
+    end
   end
 
   local start_menu = menu2_new({

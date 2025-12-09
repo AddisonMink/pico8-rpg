@@ -1,6 +1,11 @@
 function menu_graph_new(state, menus, allow_cancel)
+  local start_state = state
   local prev_states = {}
   local me = {}
+
+  function me:reset_state() state = start_state end
+  function me:get_state() return state end
+  function me:set_state(new_state) state = new_state end
 
   function me:update()
     local result = menus[state]:update()

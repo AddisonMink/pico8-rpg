@@ -16,6 +16,35 @@ function dialogue_new(npc_sprite_id, menu_tree)
   return me
 end
 
+function dialogue2_new(data_id, npc_sprite_id, title, segments)
+  local menu_list = menu_list_new(title, segments, npc_sprite_id)
+  local me = {}
+
+  function me:load()
+    local loaded_state = global.dialogue_states[data_id]
+    if loaded_state then
+      menu_list:set_state(loaded_state)
+    else
+      menu_list:reset_state()
+    end
+  end
+
+  function me:update()
+    local result = menu_list:update()
+    if result then
+      local state = menu_list:get_state()
+      global.dialogue_states[data_id] = state
+      return result
+    end
+  end
+
+  function me:draw()
+    menu_list:draw()
+  end
+
+  return me
+end
+
 function dialogue_simple_new(npc_sprite_id, menu)
   local menu_tree = menu_tree_new(
     "main",
@@ -94,7 +123,9 @@ function inn_dialogue_new(npc_sprite_id, cost)
   return dialogue_simple_new(npc_sprite_id, menu)
 end
 
-dialogue_wizard = menu_list_new(
+dialogue_wizard = dialogue2_new(
+  "wizard1",
+  43,
   "wizard",
   {
     {
@@ -118,8 +149,7 @@ dialogue_wizard = menu_list_new(
       "",
       "beware the dragon!"
     }
-  },
-  43
+  }
 )
 
 function fairy_cave_1_new()

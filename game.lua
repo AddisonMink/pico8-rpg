@@ -36,6 +36,12 @@ function game_new()
       mset(tile_change.x, tile_change.y, tile_change.tile_id)
     end
 
+    -- restore dialogue states
+    global.dialogue_states = {}
+    for data_id, state in pairs(saved.dialogue_states) do
+      global.dialogue_states[data_id] = state
+    end
+
     transition(battle, world, "world")
   end
 
@@ -44,6 +50,7 @@ function game_new()
       local code, result = world:update()
       if code == "dialogue" then
         dialogue = result
+        if dialogue.load then dialogue:load() end
         transition(world, dialogue, "dialogue")
       elseif code == "battle" then
         battle = battle_new(result.enemy, result.background_id)

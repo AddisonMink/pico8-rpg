@@ -14,7 +14,8 @@ global = {
   coins = 0,
 
   -- world data
-  tile_changes = {}
+  tile_changes = {},
+  dialogue_states = {}
 }
 
 saved = {
