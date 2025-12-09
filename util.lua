@@ -83,3 +83,10 @@ function draw_panel(x, y, w, h)
   sspr(24, 4, 8, 8, x + w - 8, y + 8, 8, h - 16)
   rectfill(x + 8, y + 8, x + w - 9, y + h - 9, 1)
 end
+
+function draw_npc_sprite(id)
+  local camera_x = peek2(0x5f28)
+  local camera_y = peek2(0x5f2a)
+  spr(id, camera_x + 32, camera_y + 16, 2, 2)
+  spr(global.player.sprite_id, camera_x + 82, camera_y + 16, 2, 2)
+end

@@ -81,9 +81,10 @@ function town_new()
   end
 
   function me:draw()
+    draw_npc_sprite(4)
     local camera_x = peek2(0x5f28)
     local camera_y = peek2(0x5f2a)
-    menu_graph:draw(camera_x + 10, camera_y + 16)
+    menu_graph:draw(camera_x + 10, camera_y + 40)
   end
 
   return me
