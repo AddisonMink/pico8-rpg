@@ -1,5 +1,4 @@
 function town_new()
-  local min_w, min_h = 100, 80
   local credits = 5
   local me = {}
 
@@ -22,8 +21,7 @@ function town_new()
     text = { "welcome back!" },
     elems = { "rest and save" },
     next_state = function() return "rest" end,
-    min_width = min_w,
-    min_height = min_h
+    npc_sprite_id = 4
   })
 
   local rest_menu = menu2_new({
@@ -32,8 +30,7 @@ function town_new()
     elems = { "buy items" },
     on_select = save,
     next_state = function() return "item" end,
-    min_width = min_w,
-    min_height = min_h
+    npc_sprite_id = 4
   })
 
   local item_text = { "credits: " .. credits }
@@ -63,8 +60,7 @@ function town_new()
       global.items[e.name].quantity += 1
       return "repeat"
     end,
-    min_width = min_w,
-    min_height = min_h
+    npc_sprite_id = 4
   })
 
   local menu_graph = menu_graph_new(
@@ -81,10 +77,7 @@ function town_new()
   end
 
   function me:draw()
-    draw_npc_sprite(4)
-    local camera_x = peek2(0x5f28)
-    local camera_y = peek2(0x5f2a)
-    menu_graph:draw(camera_x + 10, camera_y + 40)
+    menu_graph:draw()
   end
 
   return me

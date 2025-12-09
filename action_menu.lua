@@ -10,7 +10,9 @@ function action_menu_new(can_escape)
     end,
     next_state = function(action)
       return (action == "spell" or action == "item") and action
-    end
+    end,
+    min_width = 0,
+    min_height = 0
   })
 
   local item_menu = menu2_new({
@@ -18,7 +20,9 @@ function action_menu_new(can_escape)
     elems = table_values(global.items),
     stringify_elem = function(item)
       return pad_str(item.item.name .. " x" .. item.quantity, 12) .. item.item.desc
-    end
+    end,
+    min_width = 0,
+    min_height = 0
   })
 
   local spell_menu = menu2_new({
@@ -26,7 +30,9 @@ function action_menu_new(can_escape)
     elems = global.spells,
     stringify_elem = function(spell)
       return pad_str(spell.name, 10) .. spell.desc
-    end
+    end,
+    min_width = 0,
+    min_height = 0
   })
 
   local menu_graph = menu_graph_new(

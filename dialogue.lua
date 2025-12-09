@@ -94,6 +94,8 @@ function inn_dialogue_new(npc_sprite_id, cost)
   return dialogue_simple_new(npc_sprite_id, menu)
 end
 
+local dialogue_wizard = dialo
+
 function wizard_dialogue_new()
   local text1 = [[
 i will teach you a

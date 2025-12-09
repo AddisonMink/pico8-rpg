@@ -16,6 +16,7 @@
     stringify_elem (function, optional) - stringify_elem(ELEM) -> string
     min_width (number, optional) - minimum width of menu
     min_height (number, optional) - minimum height of menu
+    npc_sprite_id (number, optional) - sprite ID of the NPC
 
   methods:
     update() -> string or nil
@@ -45,9 +46,10 @@ function menu2_new(params)
   local next_state = params.next_state
       or function() return nil end
 
-  local min_width = params.min_width or 0
-  local min_height = params.min_height or 0
+  local min_width = params.min_width or 100
+  local min_height = params.min_height or 80
   local w, h = 0, 0
+  local npc_sprite_id = params.npc_sprite_id
   local index = 1
   local me = {}
 
@@ -102,6 +104,13 @@ function menu2_new(params)
   end
 
   function me:draw(x, y)
+    if not (x or y) then
+      local camera_x = peek2(0x5f28)
+      local camera_y = peek2(0x5f2a)
+      x = camera_x + 64 - w / 2
+      y = camera_y + 40
+    end
+
     local cx, cy = x + 4, y + 4
 
     draw_panel(x, y, w, h)
@@ -128,6 +137,13 @@ function menu2_new(params)
     end
 
     spr(1, cx, pointer_y)
+
+    if npc_sprite_id then
+      local x = peek2(0x5f28) + 32
+      local y = y - 24
+      spr(npc_sprite_id, x, y, 2, 2)
+      spr(128, x + 50, y, 2, 2)
+    end
   end
 
   initialize()
