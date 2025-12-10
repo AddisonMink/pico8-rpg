@@ -1,22 +1,4 @@
-function dialogue_new(npc_sprite_id, menu_tree)
-  local me = {}
-
-  function me:update()
-    return menu_tree:update()
-  end
-
-  function me:draw()
-    local camera_x = peek2(0x5f28)
-    local camera_y = peek2(0x5f2a)
-    spr(npc_sprite_id, camera_x + 32, camera_y + 16, 2, 2)
-    spr(global.player.sprite_id, camera_x + 82, camera_y + 16, 2, 2)
-    menu_tree:draw(camera_x + 16, camera_y + 40)
-  end
-
-  return me
-end
-
-function dialogue2_new(data_id, npc_sprite_id, title, segments)
+function dialogue_new(data_id, npc_sprite_id, title, segments)
   local menu_list = menu_list_new(title, segments, npc_sprite_id)
   local me = {}
 
@@ -45,85 +27,7 @@ function dialogue2_new(data_id, npc_sprite_id, title, segments)
   return me
 end
 
-function dialogue_simple_new(npc_sprite_id, menu)
-  local menu_tree = menu_tree_new(
-    "main",
-    { main = menu },
-    { "ok", "cancel" },
-    true
-  )
-  return dialogue_new(npc_sprite_id, menu_tree)
-end
-
--- segment = { text = string, action = () => () }
-function dialogue_linear_new(npc_sprite_id, title, segments)
-  local menu_map = {}
-
-  for i, segment in ipairs(segments) do
-    local state_key = tostring(i)
-    local next_state_key = i < #segments and tostring(i + 1) or "leave"
-
-    menu_map[state_key] = menu_new(
-      title,
-      segment.text,
-      { next_state_key },
-      nil,
-      segment.action,
-      function(key) return key == "leave" and key or "continue" end,
-      100, 80
-    )
-  end
-
-  local menu_tree = menu_tree_new("1", menu_map, { "leave" })
-
-  return dialogue_new(npc_sprite_id, menu_tree)
-end
-
-function shop_dialogue_new(npc_sprite_id, items)
-  local menu = menu_new(
-    "shop",
-    nil,
-    items,
-    function(item) return global.coins >= item.price end,
-    function(item)
-      global.coins -= item.price
-      if global.items[item.name] == nil then
-        global.items[item.name] = { type = "item", item = item, quantity = 0 }
-      end
-      global.items[item.name].quantity += 1
-    end,
-    function(item)
-      local name = pad_str(item.name, 8)
-      local price = pad_str("$" .. item.price, 5)
-      local num_owned = global.items[item.name] and global.items[item.name].quantity or 0
-      local owned = "owned: " .. num_owned
-      return name .. price .. owned
-    end,
-    100, 80
-  )
-
-  return dialogue_simple_new(npc_sprite_id, menu)
-end
-
-function inn_dialogue_new(npc_sprite_id, cost)
-  local menu = menu_new(
-    "inn",
-    nil,
-    { "rest $" .. cost },
-    function(item) return global.coins >= cost end,
-    function(item)
-      global.coins -= cost
-      global.player.hp = global.player.max_hp
-      global.player.mp = global.player.max_mp
-    end,
-    nil,
-    100, 80
-  )
-
-  return dialogue_simple_new(npc_sprite_id, menu)
-end
-
-dialogue_wizard = dialogue2_new(
+dialogue_wizard = dialogue_new(
   "wizard1",
   43,
   "wizard",
@@ -152,179 +56,145 @@ dialogue_wizard = dialogue2_new(
   }
 )
 
-function fairy_cave_1_new()
-  local text1 = [[
-the dark elf cap-
-tured us and set
-the dragon to guard
-this cave!
-
-we will show you a
-path through the
-forest.
-]]
-
-  local text2 = [[
-there are more of us
-further in. we will
-help you if we can.
-]]
-
-  local function action2()
-    global.player.max_mp += 1
-    global.player.mp = global.player.max_mp
-    add(global.spells, sleep_spell)
-  end
-
-  local segments = {
+dialogue_fairy_1 = dialogue_new(
+  "fairy1",
+  41,
+  "fairies",
+  {
     {
-      text = text1, action = function()
-        set_tile(3, 14, 11)
-        set_tile(3, 15, 11)
-        set_tile(4, 15, 11)
-        set_tile(5, 15, 11)
-      end
+      "the dark elf cap-",
+      "-tured us and set",
+      "the dragon to guard",
+      "this cave!",
+      "",
+      "we will show you a",
+      "path through the",
+      "forest."
     },
+    function()
+      set_tile(3, 14, 11)
+      set_tile(3, 15, 11)
+      set_tile(4, 15, 11)
+      set_tile(5, 15, 11)
+    end,
     {
-      text = text2, action = function() end
+      "there are more of",
+      "us further in. we",
+      "will help you if we",
+      "can."
     }
   }
+)
 
-  return dialogue_linear_new(41, "fairies", segments)
-end
-
-function fairy_cave_2_new()
-  local text1 = [[
-we will show you the way
-out of the forest!
-]]
-
-  local text2 = [[
- good luck to you!]]
-
-  local segments = {
+dialogue_fairy_2 = dialogue_new(
+  "fairy2",
+  41,
+  "fairies",
+  {
     {
-      text = text1, action = function()
-        set_tile(7, 20, 11)
-        set_tile(8, 20, 11)
-      end
+      "we will show you the way",
+      "out of the forest!"
     },
-    { text = text2, action = function() end }
-  }
-  return dialogue_linear_new(41, "fairies", segments)
-end
-
-function fairy_cave_3_new()
-  local text = [[
-the dark elf is shrouded
-in illusion. there is a
-magic spell that can
-reveal him.
-]]
-
-  local segments = { { text = text, action = function() end } }
-  return dialogue_linear_new(41, "fairies", segments)
-end
-
-function fairy_cave_4_new()
-  local text1 = [[
-the dark elf's castle is
-just ahead. be careful!
-
-he is one of the red
-king's vassals. you will
-not be able to escape
-once you confront him.
-]]
-
-  local text2 = [[
-let us heal your wounds
-before you go further.
-]]
-
-  local segments = {
-    { text = text1, action = function() end },
+    function()
+      set_tile(7, 20, 11)
+      set_tile(8, 20, 11)
+    end,
     {
-      text = text2,
-      action = function()
-        global.player.hp = global.player.max_hp
-        global.player.mp = global.player.max_mp
-      end
+      "good luck to you!"
     }
   }
+)
 
-  return dialogue_linear_new(41, "fairies", segments)
-end
-
-function fairy_cave_5_new()
-  local text1 = [[
-we are the guardians
-of the sacred sping.
-
-drink from it to
-increase your power.
-]]
-
-  local text2 = [[
-now that the dark
-elf is gone, we will
-show the townspeople
-how to make sacred
-water.
-]]
-
-  local segments = {
+dialogue_fairy_3 = dialogue_new(
+  "fairy3",
+  41,
+  "fairies",
+  {
     {
-      text = text1,
-      action = function()
-        global.player.max_hp += 10
-        global.strength += 10
-        global.player.hp = global.player.max_hp
-        global.player.mp = global.player.max_mp
-      end
+      "the dark elf is shrouded",
+      "in illusion. there is a",
+      "magic spell that can",
+      "reveal him."
     },
-    { text = text2, action = function() end }
+    function() end
   }
+)
 
-  return dialogue_linear_new(41, "fairies", segments)
-end
-
-function priestess_dialogue_new()
-  local text = [[
-i will teach you a
-spellto break evil
-enchantments.
-
-illusions and armor
-will shatter before
-it.
-  ]]
-
-  local text2 = [[
-there will be more
-content here later.
-]]
-
-  local segments = {
+dialogue_fairy_4 = dialogue_new(
+  "fairy4",
+  41,
+  "fairies",
+  {
     {
-      text = text,
-      action = function()
-        global.player.max_mp += 1
-        global.player.mp = global.player.max_mp
-        add(global.spells, dispel_spell)
-      end
+      "the dark elf's castle is",
+      "just ahead. be careful!",
+      "",
+      "he is one of the red",
+      "king's vassals. you will",
+      "not be able to escape",
+      "once you confront him."
     },
-    { text = text2, action = function() end }
+    {
+      "let us heal your wounds",
+      "before you go further."
+    },
+    function()
+      global.player.hp = global.player.max_hp
+      global.player.mp = global.player.max_mp
+    end
   }
+)
 
-  return dialogue_linear_new(66, "priestess", segments)
-end
+dialogue_fairy_5 = dialogue_new(
+  "fairy5",
+  41,
+  "fairies",
+  {
+    {
+      "we are the guardians",
+      "of the sacred sping.",
+      "",
+      "drink from it to",
+      "increase your power."
+    },
+    function()
+      global.player.max_hp += 10
+      global.strength += 10
+      global.player.hp = global.player.max_hp
+      global.player.mp = global.player.max_mp
+    end,
+    {
+      "now that the dark",
+      "elf is gone, we will",
+      "show the townspeople",
+      "how to make sacred",
+      "water."
+    }
+  }
+)
 
-dialogue_town_shop = shop_dialogue_new(4, global.shop_items)
-dialogue_town_inn = inn_dialogue_new(4, 3)
-dialogue_fairy_cave_1 = fairy_cave_1_new()
-dialogue_fairy_cave_2 = fairy_cave_2_new()
-dialogue_fairy_cave_3 = fairy_cave_3_new()
-dialogue_fairy_cave_4 = fairy_cave_4_new()
-dialogue_fairy_cave_5 = fairy_cave_5_new()
-priestess_dialogue = priestess_dialogue_new()
+dialogue_priestess_1 = dialogue_new(
+  "priestess1",
+  66,
+  "priestess",
+  {
+    {
+      "i will teach you a",
+      "spell to break evil",
+      "enchantments.",
+      "",
+      "illusions and armor",
+      "will shatter before",
+      "it."
+    },
+    function()
+      global.player.max_mp += 1
+      global.player.mp = global.player.max_mp
+      add(global.spells, dispel_spell)
+    end,
+    {
+      "there will be more",
+      "content here later."
+    }
+  }
+)

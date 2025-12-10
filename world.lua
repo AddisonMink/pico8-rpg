@@ -32,25 +32,24 @@ function world_new()
   }
 
   local dialogue_map = {
-    ["15,13"] = dialogue_town_shop,
-    ["14,14"] = dialogue_town_shop,
-    ["15,14"] = dialogue_town_shop,
-    ["16,14"] = dialogue_town_shop,
-    ["17,14"] = dialogue_town_shop,
-    ["14,15"] = dialogue_town_shop,
-    ["15,15"] = dialogue_town_shop,
-    ["16,15"] = dialogue_town_shop,
-    ["17,15"] = dialogue_town_shop,
-    ["18,15"] = dialogue_town_shop,
-
+    ["15,13"] = "town",
+    ["14,14"] = "town",
+    ["15,14"] = "town",
+    ["16,14"] = "town",
+    ["17,14"] = "town",
+    ["14,15"] = "town",
+    ["15,15"] = "town",
+    ["16,15"] = "town",
+    ["17,15"] = "town",
+    ["18,15"] = "town",
     ["8,8"] = dialogue_wizard,
-    ["3,13"] = dialogue_fairy_cave_1,
-    ["6,19"] = dialogue_fairy_cave_2,
-    ["3,21"] = dialogue_fairy_cave_3,
-    ["5,10"] = dialogue_fairy_cave_4,
-    ["1,7"] = dialogue_fairy_cave_5,
-    ["29,19"] = priestess_dialogue,
-    ["30,19"] = priestess_dialogue
+    ["3,13"] = dialogue_fairy_1,
+    ["6,19"] = dialogue_fairy_2,
+    ["3,21"] = dialogue_fairy_3,
+    ["5,10"] = dialogue_fairy_4,
+    ["1,7"] = dialogue_fairy_5,
+    ["29,19"] = dialogue_priestess_1,
+    ["30,19"] = dialogue_priestess_1
   }
 
   local scripted_battle_tiles = {
@@ -130,7 +129,7 @@ function world_new()
     local scripted_battle = scripted_battle_tiles[key]
     dialogue = dialogue_map[key]
 
-    if dialogue == dialogue_town_shop then
+    if dialogue == "town" then
       dialogue = town_new()
     end
 

@@ -2,8 +2,6 @@ pico-8 cartridge // http://www.pico-8.com
 version 42
 __lua__
 #include util.lua
-#include menu.lua
-#include menu_tree.lua
 #include menu2.lua
 #include menu_graph.lua
 #include status_menu.lua
