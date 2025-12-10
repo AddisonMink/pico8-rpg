@@ -28,7 +28,8 @@ saved = {
   coins = 0,
 
   -- world data
-  tile_changes = {}
+  tile_changes = {},
+  dialogue_states = {}
 }
 
 function set_tile(x, y, tile_id)
